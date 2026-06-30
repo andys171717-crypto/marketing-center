@@ -358,9 +358,9 @@ UltraMsg.isValidNumber=function(
 
 };
 
+alert(typeof UltraMsg.init);
+
 console.log(
-
     "UltraMsg Engine Ready"
-
 );
 
