@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Center</title>
+
+    <link rel="stylesheet" href="marketing-center.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+        <h1>📢 Marketing Center</h1>
+        <p>WhatsApp Broadcast Management</p>
+    </header>
+
+
+    <!-- DASHBOARD -->
+    <section class="dashboard">
+
+        <div class="card">
+            <h3>Total Kontak</h3>
+            <h2 id="totalContacts">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Template</h3>
+            <h2 id="totalTemplates">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Broadcast</h3>
+            <h2 id="totalBroadcast">0</h2>
+        </div>
+
+    </section>
+
+
+    <!-- BROADCAST -->
+    <section class="broadcast">
+
+        <h2>Broadcast WhatsApp</h2>
+
+        <div class="form-group">
+            <label>Nama Broadcast</label>
+            <input
+                type="text"
+                id="broadcastName"
+                placeholder="Promo Juli">
+        </div>
+
+        <div class="form-group">
+            <label>Pesan</label>
+            <textarea
+                id="broadcastMessage"
+                rows="8"
+                placeholder="Tulis pesan disini..."></textarea>
+        </div>
+
+        <div class="form-group">
+
+            <label>Pilih Kontak</label>
+
+            <select id="contactGroup">
+
+                <option value="all">
+                    Semua Kontak
+                </option>
+
+                <option value="customer">
+                    Customer
+                </option>
+
+                <option value="mitra">
+                    Mitra
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Mode Pengiriman</label>
+
+            <select id="sendMode">
+
+                <option value="now">
+                    Kirim Sekarang
+                </option>
+
+                <option value="schedule">
+                    Jadwalkan
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="schedule">
+
+            <input
+                type="date"
+                id="scheduleDate">
+
+            <input
+                type="time"
+                id="scheduleTime">
+
+        </div>
+
+
+        <div class="button-group">
+
+            <button id="previewBtn">
+                Preview
+            </button>
+
+            <button id="saveDraftBtn">
+                Simpan Draft
+            </button>
+
+            <button id="startBroadcastBtn">
+                Mulai Broadcast
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- TEMPLATE -->
+    <section class="template">
+
+        <h2>Template Pesan</h2>
+
+        <div id="templateList">
+
+            <!-- JS -->
+
+        </div>
+
+        <button id="newTemplateBtn">
+
+            + Template Baru
+
+        </button>
+
+    </section>
+
+
+    <!-- CONTACT -->
+    <section class="contacts">
+
+        <h2>Kontak</h2>
+
+        <div id="contactList">
+
+            <!-- JS -->
+
+        </div>
+
+        <button id="addContactBtn">
+
+            + Tambah Kontak
+
+        </button>
+
+    </section>
+
+
+    <!-- HISTORY -->
+    <section class="history">
+
+        <h2>Riwayat Broadcast</h2>
+
+        <div id="historyList">
+
+            Belum ada riwayat.
+
+        </div>
+
+    </section>
+
+
+</div>
+
+<script src="marketing-center.js"></script>
+
+</body>
+</html>
