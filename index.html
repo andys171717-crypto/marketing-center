@@ -38,7 +38,71 @@
 
     </section>
 
+<!-- ULTRAMSG CONFIG -->
+<section class="ultramsg-config">
 
+    <h2>UltraMsg API</h2>
+
+    <div class="form-group">
+
+        <label>API URL</label>
+
+        <input
+            type="text"
+            id="ultraApiUrl"
+            placeholder="https://api.ultramsg.com">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Instance ID</label>
+
+        <input
+            type="text"
+            id="ultraInstanceId"
+            placeholder="Masukkan Instance ID">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Token</label>
+
+        <input
+            type="password"
+            id="ultraToken"
+            placeholder="Masukkan Token UltraMsg">
+
+    </div>
+
+    <div class="button-group">
+
+        <button
+            id="saveUltraBtn">
+
+            Simpan Konfigurasi
+
+        </button>
+
+        <button
+            id="testUltraBtn">
+
+            Test Koneksi
+
+        </button>
+
+    </div>
+
+    <p id="ultraStatus">
+
+        Status :
+        Belum Terhubung
+
+    </p>
+
+</section>    
+    
     <!-- BROADCAST -->
     <section class="broadcast">
 
@@ -190,6 +254,7 @@
 
 </div>
 
+<script src="ultramsg.js"></script>
 <script src="marketing-center.js"></script>
 
 </body>
