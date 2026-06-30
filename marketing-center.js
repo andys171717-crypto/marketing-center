@@ -12,6 +12,253 @@ const STORAGE_TEMPLATES = "mc_templates";
 const STORAGE_HISTORY = "mc_history";
 const STORAGE_DRAFT = "mc_draft";
 
+// ==========================================
+// ULTRAMSG CONFIG
+// ==========================================
+
+const STORAGE_ULTRA =
+"mc_ultramsg";
+
+let ultraConfig =
+JSON.parse(
+localStorage.getItem(STORAGE_ULTRA)
+) || {
+
+    apiUrl:
+    "https://api.ultramsg.com",
+
+    instanceId:"",
+
+    token:""
+
+};
+
+// ==========================================
+// SAVE CONFIG
+// ==========================================
+
+function saveUltraConfig(){
+
+    localStorage.setItem(
+
+        STORAGE_ULTRA,
+
+        JSON.stringify(
+            ultraConfig
+        )
+
+    );
+
+}
+
+// ==========================================
+// LOAD CONFIG
+// ==========================================
+
+function loadUltraConfig(){
+
+    return ultraConfig;
+
+}
+
+// ==========================================
+// UPDATE CONFIG
+// ==========================================
+
+function updateUltraConfig(
+
+    apiUrl,
+
+    instanceId,
+
+    token
+
+){
+
+    ultraConfig.apiUrl =
+    apiUrl.trim();
+
+    ultraConfig.instanceId =
+    instanceId.trim();
+
+    ultraConfig.token =
+    token.trim();
+
+    saveUltraConfig();
+
+}
+
+// ==========================================
+// CHECK CONFIG
+// ==========================================
+
+function hasUltraConfig(){
+
+    return(
+
+        ultraConfig.instanceId!=="" &&
+
+        ultraConfig.token!=="" &&
+
+        ultraConfig.apiUrl!==""
+
+
+    );
+
+}
+
+// ==========================================
+// API URL
+// ==========================================
+
+function getUltraEndpoint(){
+
+    return `${ultraConfig.apiUrl}/${ultraConfig.instanceId}/messages/chat`;
+
+}
+
+// ==========================================
+// CONNECTION STATUS
+// ==========================================
+
+let ultraStatus={
+
+    connected:false,
+
+    lastTest:null,
+
+    message:"Belum diuji"
+
+};
+
+// ==========================================
+// SAVE STATUS
+// ==========================================
+
+function setUltraStatus(
+
+    connected,
+
+    message
+
+){
+
+    ultraStatus.connected=
+
+    connected;
+
+    ultraStatus.message=
+
+    message;
+
+    ultraStatus.lastTest=
+
+    new Date()
+
+    .toLocaleString();
+
+}
+
+// ==========================================
+// TEST CONNECTION
+// ==========================================
+
+async function testUltraConnection(){
+
+    if(
+
+        !hasUltraConfig()
+
+    ){
+
+        alert(
+
+        "Konfigurasi UltraMsg belum lengkap."
+
+        );
+
+        return false;
+
+    }
+
+    try{
+
+        const response=
+
+        await fetch(
+
+            `${ultraConfig.apiUrl}/${ultraConfig.instanceId}/instance/status`+
+
+            `?token=${ultraConfig.token}`
+
+        );
+
+        if(
+
+            response.ok
+
+        ){
+
+            setUltraStatus(
+
+                true,
+
+                "Terhubung"
+
+            );
+
+            alert(
+
+                "UltraMsg berhasil terhubung."
+
+            );
+
+            return true;
+
+        }
+
+        setUltraStatus(
+
+            false,
+
+            "Gagal"
+
+        );
+
+        alert(
+
+            "Koneksi gagal."
+
+        );
+
+        return false;
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        setUltraStatus(
+
+            false,
+
+            error.message
+
+        );
+
+        alert(
+
+            "Tidak dapat terhubung."
+
+        );
+
+        return false;
+
+    }
+
+}
+
 // ==========================
 // DATA
 // ==========================
@@ -67,6 +314,28 @@ document.getElementById("scheduleDate");
 
 const scheduleTime =
 document.getElementById("scheduleTime");
+
+// ==========================
+// ULTRAMSG ELEMENT
+// ==========================
+
+const ultraApiUrl =
+document.getElementById("ultraApiUrl");
+
+const ultraInstanceId =
+document.getElementById("ultraInstanceId");
+
+const ultraToken =
+document.getElementById("ultraToken");
+
+const saveUltraBtn =
+document.getElementById("saveUltraBtn");
+
+const testUltraBtn =
+document.getElementById("testUltraBtn");
+
+const ultraStatusText =
+document.getElementById("ultraStatus");
 
 // ==========================
 // SAVE
@@ -455,40 +724,93 @@ ${scheduleTime.value}
 // HISTORY
 // ==========================
 
-function startBroadcast(){
+async function startBroadcast(){
 
-    if(
-        broadcastMessage.value.trim()==""
-    ){
+    if(!validateBroadcast()){
+        return;
+    }
 
-        alert("Pesan masih kosong.");
+    if(contacts.length===0){
+
+        alert("Belum ada kontak.");
 
         return;
 
     }
 
-    history.unshift({
+    const numbers =
+    contacts.map(item=>item.phone);
 
-        name:
-        broadcastName.value || "Broadcast",
+    try{
 
-        date:
-        new Date().toLocaleString(),
+        const result =
+        await UltraMsg.sendBulk(
 
-        status:
-        "Berhasil"
+            numbers,
 
-    });
+            broadcastMessage.value,
 
-    saveHistory();
+            (progress)=>{
 
-    renderHistory();
+                console.log(
+                    "Progress :",
+                    progress
+                );
 
-    updateDashboard();
+            }
 
-    alert(
-        "Broadcast berhasil disimpan ke riwayat."
-    );
+        );
+
+        history.unshift({
+
+            name:
+            broadcastName.value || "Broadcast",
+
+            date:
+            new Date().toLocaleString(),
+
+            status:
+            `Berhasil ${result.success}/${result.total}`
+
+        });
+
+        saveHistory();
+
+        renderHistory();
+
+        updateDashboard();
+
+        clearDraft();
+
+        resetForm();
+
+        alert(
+
+            `Broadcast selesai\n\n`+
+
+            `Berhasil : ${result.success}\n`+
+
+            `Gagal : ${result.failed}\n`+
+
+            `Skip : ${result.skipped}`
+
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(
+
+            "Broadcast gagal.\n\n"+
+
+            error.message
+
+        );
+
+    }
 
 }
 
@@ -584,20 +906,13 @@ function validateBroadcast(){
 // START BROADCAST (V1)
 // ==========================================
 
-const oldStartBroadcast=startBroadcast;
+const oldStartBroadcast = startBroadcast;
 
-startBroadcast=function(){
+startBroadcast = async function(){
 
-    if(!validateBroadcast())
-        return;
+    await oldStartBroadcast();
 
-    oldStartBroadcast();
-
-    clearDraft();
-
-    resetForm();
-
-}
+};
 
 // ==========================================
 // AUTO SAVE DRAFT
@@ -680,6 +995,86 @@ renderContacts();
 renderTemplates();
 
 renderHistory();
+
+// ==========================================
+// ULTRAMSG UI
+// ==========================================
+
+function loadUltraToForm(){
+
+    const cfg =
+    UltraMsg.getConfig();
+
+    ultraApiUrl.value =
+    cfg.apiUrl || "";
+
+    ultraInstanceId.value =
+    cfg.instanceId || "";
+
+    ultraToken.value =
+    cfg.token || "";
+
+}
+
+saveUltraBtn.onclick=function(){
+
+    UltraMsg.init({
+
+        apiUrl:
+        ultraApiUrl.value,
+
+        instanceId:
+        ultraInstanceId.value,
+
+        token:
+        ultraToken.value
+
+    });
+
+    alert(
+        "Konfigurasi UltraMsg berhasil disimpan."
+    );
+
+};
+
+testUltraBtn.onclick = async function(){
+
+    try{
+
+        UltraMsg.init({
+
+            apiUrl: ultraApiUrl.value,
+
+            instanceId: ultraInstanceId.value,
+
+            token: ultraToken.value
+
+        });
+
+        const result =
+        await UltraMsg.testConnection();
+
+        ultraStatusText.textContent =
+        "Status : ✅ Terhubung";
+
+        console.log(result);
+
+    }
+
+    catch(error){
+
+        ultraStatusText.textContent =
+        "Status : ❌ Gagal";
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+};
+
+loadUltraToForm();
 
 console.log(
 "Marketing Center V1 Ready"
