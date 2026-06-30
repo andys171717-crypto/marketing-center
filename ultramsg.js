@@ -110,21 +110,117 @@ const UltraMsg = (()=>{
 
     }
 
+// ==========================================
+// INIT
+// ==========================================
+
+function init(options={}){
+
+    if(options.apiUrl){
+
+        config.apiUrl =
+        options.apiUrl.trim();
+
+    }
+
+    if(options.instanceId){
+
+        config.instanceId =
+        options.instanceId.trim();
+
+    }
+
+    if(options.token){
+
+        config.token =
+        options.token.trim();
+
+    }
+
+    save();
+
+    return config;
+
+}
+
+// ==========================================
+// GET CONFIG
+// ==========================================
+
+function getConfig(){
+
     return{
 
-        load,
+        apiUrl:config.apiUrl,
 
-        save,
+        instanceId:config.instanceId,
 
-        configure,
-
-        isConfigured,
-
-        endpoint,
-
-        testConnection
+        token:config.token
 
     };
+
+}
+
+// ==========================================
+// RESET
+// ==========================================
+
+function reset(){
+
+    config={
+
+        apiUrl:
+        "https://api.ultramsg.com",
+
+        instanceId:"",
+
+        token:""
+
+    };
+
+    save();
+
+}
+
+// ==========================================
+// DELAY
+// ==========================================
+
+function delay(ms){
+
+    return new Promise(
+
+        resolve=>
+
+        setTimeout(resolve,ms)
+
+    );
+
+}
+
+    return{
+
+    init,
+
+    load,
+
+    save,
+
+    reset,
+
+    getConfig,
+
+    configure,
+
+    isConfigured,
+
+    endpoint,
+
+    testConnection,
+
+    delay
+
+};
 
 })();
 
@@ -363,4 +459,3 @@ alert(typeof UltraMsg.init);
 console.log(
     "UltraMsg Engine Ready"
 );
-
