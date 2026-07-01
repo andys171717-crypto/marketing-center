@@ -394,21 +394,33 @@ if(
 
         }
 
-        catch(error){
+catch(error){
 
-            result.failed++;
+    alert(
 
-            result.logs.push({
+        "ERROR\n\n"+
 
-                phone,
+        phone+
 
-                status:"failed",
+        "\n\n"+
 
-                error:error.message
+        error.message
 
-            });
+    );
 
-        }
+    result.failed++;
+
+    result.logs.push({
+
+        phone,
+
+        status:"failed",
+
+        error:error.message
+
+    });
+
+}       
 
         if(onProgress){
 
