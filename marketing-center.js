@@ -328,20 +328,14 @@ document.getElementById("ultraInstanceId");
 const ultraToken =
 document.getElementById("ultraToken");
 
-const editUltraBtn =
-document.getElementById("editUltraBtn");
+const saveUltraBtn =
+document.getElementById("saveUltraBtn");
 
 const testUltraBtn =
 document.getElementById("testUltraBtn");
 
 const ultraStatusText =
 document.getElementById("ultraStatus");
-
-const importCsvBtn =
-document.getElementById("importCsvBtn");
-
-const csvFileInput =
-document.getElementById("csvFileInput");
 
 // ==========================
 // SAVE
@@ -406,11 +400,11 @@ function updateDashboard(){
 
 function renderContacts(){
 
-    contactList.innerHTML="";
+    contactList.innerHTML = "";
 
-    if(contacts.length===0){
+    if(contacts.length === 0){
 
-        contactList.innerHTML=
+        contactList.innerHTML =
         "<p>Belum ada kontak.</p>";
 
         return;
@@ -419,67 +413,23 @@ function renderContacts(){
 
     contacts.forEach((item,index)=>{
 
-        contactList.innerHTML+=`
+        contactList.innerHTML += `
 
-<div class="contact-item">
+        <div class="contact-item">
 
-<label style="display:flex;align-items:center;gap:12px;">
+            <h4>${item.name}</h4>
 
-<input
-type="checkbox"
-class="contact-check"
-data-index="${index}"
-${item.selected ? "checked" : ""}>
+            <p>${item.phone}</p>
 
-<div style="flex:1;">
+            <button onclick="deleteContact(${index})">
 
-<h4>${item.name}</h4>
+                Hapus
 
-<p>${item.phone}</p>
+            </button>
 
-<small>${item.category}</small>
+        </div>
 
-</div>
-
-</label>
-
-<button onclick="deleteContact(${index})">
-
-Hapus
-
-</button>
-
-</div>
-
-`;
-
-    });
-
-    bindContactCheckbox();
-
-}
-
-// ==========================
-// CONTACT CHECKBOX
-// ==========================
-
-function bindContactCheckbox(){
-
-    document
-    .querySelectorAll(".contact-check")
-    .forEach(item=>{
-
-        item.onchange=function(){
-
-            const index=
-            Number(this.dataset.index);
-
-            contacts[index].selected=
-            this.checked;
-
-            saveContacts();
-
-        };
+        `;
 
     });
 
@@ -603,17 +553,10 @@ function addContact(){
 
     contacts.push({
 
-    id:Date.now(),
+        name:name,
+        phone:phone
 
-    name:name,
-
-    phone:phone,
-
-    category:"customer",
-
-    selected:false
-
-});
+    });
 
     saveContacts();
 
@@ -795,40 +738,8 @@ async function startBroadcast(){
 
     }
 
-let numbers=[];
-
-if(contactGroup.value==="selected"){
-
-    numbers=
-
-    contacts
-
-    .filter(item=>item.selected)
-
-    .map(item=>item.phone);
-
-}
-else{
-
-    numbers=
-
-    contacts
-
-    .map(item=>item.phone);
-
-}
-
-if(numbers.length===0){
-
-    alert(
-
-        "Belum ada kontak yang dipilih."
-
-    );
-
-    return;
-
-}
+    const numbers =
+    contacts.map(item=>item.phone);
 
     try{
 
@@ -910,102 +821,6 @@ if(numbers.length===0){
 document
 .getElementById("addContactBtn")
 .onclick=addContact;
-
-document
-.getElementById("selectAllBtn")
-.onclick=function(){
-
-    const checked=
-    contacts.some(item=>!item.selected);
-
-    contacts.forEach(item=>{
-
-        item.selected=
-        checked;
-
-    });
-
-    saveContacts();
-
-    renderContacts();
-
-};
-
-importCsvBtn.onclick=function(){
-
-    csvFileInput.click();
-
-};
-
-csvFileInput.onchange=function(){
-
-    const file=
-    this.files[0];
-
-    if(!file){
-
-        return;
-
-    }
-
-    const reader=
-    new FileReader();
-
-    reader.onload=function(event){
-
-        alert(
-
-            event.target.result
-
-        );
-
-    };
-
-    reader.readAsText(file);
-
-};
-
-document
-.getElementById("deleteSelectedBtn")
-.onclick=function(){
-
-    const total=
-    contacts.filter(
-        item=>item.selected
-    ).length;
-
-    if(total===0){
-
-        alert(
-            "Belum ada kontak yang dipilih."
-        );
-
-        return;
-
-    }
-
-    if(
-        !confirm(
-            `Hapus ${total} kontak yang dipilih?`
-        )
-    ){
-
-        return;
-
-    }
-
-    contacts=
-    contacts.filter(
-        item=>!item.selected
-    );
-
-    saveContacts();
-
-    renderContacts();
-
-    updateDashboard();
-
-};
 
 document
 .getElementById("newTemplateBtn")
@@ -1144,17 +959,11 @@ if(contacts.length===0){
 
     contacts.push({
 
-    id:Date.now(),
+        name:"Andy",
 
-    name:"Andy",
+        phone:"081234567890"
 
-    phone:"081234567890",
-
-    category:"customer",
-
-    selected:false
-
-});
+    });
 
     saveContacts();
 
@@ -1207,26 +1016,7 @@ function loadUltraToForm(){
 
 }
 
-let ultraEditMode=false;
-
-editUltraBtn.onclick=function(){
-
-    if(!ultraEditMode){
-
-        ultraEditMode=true;
-
-        ultraApiUrl.readOnly=false;
-
-        ultraInstanceId.readOnly=false;
-
-        ultraToken.readOnly=false;
-
-        editUltraBtn.textContent=
-        "💾 Simpan Konfigurasi";
-
-        return;
-
-    }
+saveUltraBtn.onclick=function(){
 
     UltraMsg.init({
 
@@ -1240,17 +1030,6 @@ editUltraBtn.onclick=function(){
         ultraToken.value
 
     });
-
-    ultraApiUrl.readOnly=true;
-
-    ultraInstanceId.readOnly=true;
-
-    ultraToken.readOnly=true;
-
-    ultraEditMode=false;
-
-    editUltraBtn.textContent=
-    "✏ Edit Konfigurasi";
 
     alert(
         "Konfigurasi UltraMsg berhasil disimpan."
