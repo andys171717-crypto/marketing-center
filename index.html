@@ -47,10 +47,11 @@
 
         <label>API URL</label>
 
-        <input
-            type="text"
-            id="ultraApiUrl"
-            placeholder="https://api.ultramsg.com">
+<input
+    type="text"
+    id="ultraApiUrl"
+    placeholder="https://api.ultramsg.com"
+    readonly>      
 
     </div>
 
@@ -58,10 +59,11 @@
 
         <label>Instance ID</label>
 
-        <input
-            type="text"
-            id="ultraInstanceId"
-            placeholder="Masukkan Instance ID">
+<input
+    type="text"
+    id="ultraInstanceId"
+    placeholder="Masukkan Instance ID"
+    readonly>    
 
     </div>
 
@@ -69,28 +71,29 @@
 
         <label>Token</label>
 
-        <input
-            type="password"
-            id="ultraToken"
-            placeholder="Masukkan Token UltraMsg">
+<input
+    type="password"
+    id="ultraToken"
+    placeholder="Masukkan Token UltraMsg"
+    readonly>    
 
     </div>
 
     <div class="button-group">
 
-        <button
-            id="saveUltraBtn">
+<button
+    id="editUltraBtn">
 
-            Simpan Konfigurasi
+    ✏ Edit Konfigurasi
 
-        </button>
+</button>       
 
-        <button
-            id="testUltraBtn">
+<button
+    id="testUltraBtn">
 
-            Test Koneksi
+    🧪 Test Koneksi
 
-        </button>
+</button>        
 
     </div>
 
@@ -128,21 +131,25 @@
 
             <label>Pilih Kontak</label>
 
-            <select id="contactGroup">
+<select id="contactGroup">
 
-                <option value="all">
-                    Semua Kontak
-                </option>
+    <option value="all">
+        Semua Kontak
+    </option>
 
-                <option value="customer">
-                    Customer
-                </option>
+    <option value="selected">
+        Kontak Terpilih
+    </option>
 
-                <option value="mitra">
-                    Mitra
-                </option>
+    <option value="customer">
+        Customer
+    </option>
 
-            </select>
+    <option value="mitra">
+        Mitra
+    </option>
+
+</select>            
 
         </div>
 
@@ -229,11 +236,43 @@
 
         </div>
 
-        <button id="addContactBtn">
+        <div class="button-group">
 
-            + Tambah Kontak
+    <button id="addContactBtn">
 
-        </button>
+        + Tambah Kontak
+
+    </button>
+
+    <button id="importCsvBtn">
+
+        📥 Import CSV
+
+    </button>
+
+    <button id="exportCsvBtn">
+
+        📤 Export CSV
+
+    </button>
+
+</div>
+
+<div class="button-group">
+
+    <button id="selectAllBtn">
+
+        ☑ Pilih Semua
+
+    </button>
+
+    <button id="deleteSelectedBtn">
+
+        🗑 Hapus Terpilih
+
+    </button>
+
+</div>
 
     </section>
 
