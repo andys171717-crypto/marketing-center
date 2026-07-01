@@ -1076,8 +1076,6 @@ testUltraBtn.onclick = async function(){
 
 loadUltraToForm();
 
-alert("Marketing JS Loaded");
-
 console.log(
 "Marketing Center V1 Ready"
 );
