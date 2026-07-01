@@ -328,8 +328,8 @@ document.getElementById("ultraInstanceId");
 const ultraToken =
 document.getElementById("ultraToken");
 
-const saveUltraBtn =
-document.getElementById("saveUltraBtn");
+const editUltraBtn =
+document.getElementById("editUltraBtn");
 
 const testUltraBtn =
 document.getElementById("testUltraBtn");
@@ -1167,7 +1167,26 @@ function loadUltraToForm(){
 
 }
 
-saveUltraBtn.onclick=function(){
+let ultraEditMode=false;
+
+editUltraBtn.onclick=function(){
+
+    if(!ultraEditMode){
+
+        ultraEditMode=true;
+
+        ultraApiUrl.readOnly=false;
+
+        ultraInstanceId.readOnly=false;
+
+        ultraToken.readOnly=false;
+
+        editUltraBtn.textContent=
+        "💾 Simpan Konfigurasi";
+
+        return;
+
+    }
 
     UltraMsg.init({
 
@@ -1181,6 +1200,17 @@ saveUltraBtn.onclick=function(){
         ultraToken.value
 
     });
+
+    ultraApiUrl.readOnly=true;
+
+    ultraInstanceId.readOnly=true;
+
+    ultraToken.readOnly=true;
+
+    ultraEditMode=false;
+
+    editUltraBtn.textContent=
+    "✏ Edit Konfigurasi";
 
     alert(
         "Konfigurasi UltraMsg berhasil disimpan."
