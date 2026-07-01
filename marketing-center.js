@@ -400,11 +400,11 @@ function updateDashboard(){
 
 function renderContacts(){
 
-    contactList.innerHTML = "";
+    contactList.innerHTML="";
 
-    if(contacts.length === 0){
+    if(contacts.length===0){
 
-        contactList.innerHTML =
+        contactList.innerHTML=
         "<p>Belum ada kontak.</p>";
 
         return;
@@ -413,23 +413,67 @@ function renderContacts(){
 
     contacts.forEach((item,index)=>{
 
-        contactList.innerHTML += `
+        contactList.innerHTML+=`
 
-        <div class="contact-item">
+<div class="contact-item">
 
-            <h4>${item.name}</h4>
+<label style="display:flex;align-items:center;gap:12px;">
 
-            <p>${item.phone}</p>
+<input
+type="checkbox"
+class="contact-check"
+data-index="${index}"
+${item.selected ? "checked" : ""}>
 
-            <button onclick="deleteContact(${index})">
+<div style="flex:1;">
 
-                Hapus
+<h4>${item.name}</h4>
 
-            </button>
+<p>${item.phone}</p>
 
-        </div>
+<small>${item.category}</small>
 
-        `;
+</div>
+
+</label>
+
+<button onclick="deleteContact(${index})">
+
+Hapus
+
+</button>
+
+</div>
+
+`;
+
+    });
+
+    bindContactCheckbox();
+
+}
+
+// ==========================
+// CONTACT CHECKBOX
+// ==========================
+
+function bindContactCheckbox(){
+
+    document
+    .querySelectorAll(".contact-check")
+    .forEach(item=>{
+
+        item.onchange=function(){
+
+            const index=
+            Number(this.dataset.index);
+
+            contacts[index].selected=
+            this.checked;
+
+            saveContacts();
+
+        };
 
     });
 
@@ -553,10 +597,17 @@ function addContact(){
 
     contacts.push({
 
-        name:name,
-        phone:phone
+    id:Date.now(),
 
-    });
+    name:name,
+
+    phone:phone,
+
+    category:"customer",
+
+    selected:false
+
+});
 
     saveContacts();
 
@@ -738,8 +789,40 @@ async function startBroadcast(){
 
     }
 
-    const numbers =
-    contacts.map(item=>item.phone);
+let numbers=[];
+
+if(contactGroup.value==="selected"){
+
+    numbers=
+
+    contacts
+
+    .filter(item=>item.selected)
+
+    .map(item=>item.phone);
+
+}
+else{
+
+    numbers=
+
+    contacts
+
+    .map(item=>item.phone);
+
+}
+
+if(numbers.length===0){
+
+    alert(
+
+        "Belum ada kontak yang dipilih."
+
+    );
+
+    return;
+
+}
 
     try{
 
@@ -821,6 +904,68 @@ async function startBroadcast(){
 document
 .getElementById("addContactBtn")
 .onclick=addContact;
+
+document
+.getElementById("selectAllBtn")
+.onclick=function(){
+
+    const checked=
+    contacts.some(item=>!item.selected);
+
+    contacts.forEach(item=>{
+
+        item.selected=
+        checked;
+
+    });
+
+    saveContacts();
+
+    renderContacts();
+
+};
+
+document
+.getElementById("deleteSelectedBtn")
+.onclick=function(){
+
+    const total=
+    contacts.filter(
+        item=>item.selected
+    ).length;
+
+    if(total===0){
+
+        alert(
+            "Belum ada kontak yang dipilih."
+        );
+
+        return;
+
+    }
+
+    if(
+        !confirm(
+            `Hapus ${total} kontak yang dipilih?`
+        )
+    ){
+
+        return;
+
+    }
+
+    contacts=
+    contacts.filter(
+        item=>!item.selected
+    );
+
+    saveContacts();
+
+    renderContacts();
+
+    updateDashboard();
+
+};
 
 document
 .getElementById("newTemplateBtn")
@@ -959,11 +1104,17 @@ if(contacts.length===0){
 
     contacts.push({
 
-        name:"Andy",
+    id:Date.now(),
 
-        phone:"081234567890"
+    name:"Andy",
 
-    });
+    phone:"081234567890",
+
+    category:"customer",
+
+    selected:false
+
+});
 
     saveContacts();
 
