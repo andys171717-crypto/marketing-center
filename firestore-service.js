@@ -4,9 +4,9 @@
    VERSION 1.0
 ========================================== */
 
-import {
+import { db } from "./firebase-config.js";
 
-    db,
+import {
 
     collection,
 
@@ -22,9 +22,7 @@ import {
 
     serverTimestamp
 
-}
-
-from "./firebase-config.js";
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 /* ==========================================
    COLLECTION
