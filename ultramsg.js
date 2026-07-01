@@ -354,7 +354,11 @@ if(
 
         send.sent===true ||
 
+        send.sent==="true" ||
+
         send.success===true ||
+
+        send.success==="true" ||
 
         send.status==="sent" ||
 
