@@ -320,111 +320,45 @@ UltraMsg.sendBulk = async function(
 
         try{
 
-const send =
+            const send =
 
-await UltraMsg.sendMessage(
+            await UltraMsg.sendMessage(
 
-    phone,
+                phone,
 
-    message
+                message
 
-);
+            );
 
-alert(
+            result.success++;
 
-    JSON.stringify(
+            result.logs.push({
 
-        send,
+                phone,
 
-        null,
+                status:"success",
 
-        2
+                response:send
 
-    )
-
-);
-
-console.log(send);
-
-if(
-
-    send &&
-
-    (
-
-        send.sent===true ||
-
-        send.sent==="true" ||
-
-        send.success===true ||
-
-        send.success==="true" ||
-
-        send.status==="sent" ||
-
-        send.status==="queue"
-
-    )
-
-){
-
-    result.success++;
-
-    result.logs.push({
-
-        phone,
-
-        status:"success",
-
-        response:send
-
-    });
-
-}else{
-
-    result.failed++;
-
-    result.logs.push({
-
-        phone,
-
-        status:"failed",
-
-        response:send
-
-    });
-
-}            
+            });
 
         }
 
-catch(error){
+        catch(error){
 
-    alert(
+            result.failed++;
 
-        "ERROR\n\n"+
+            result.logs.push({
 
-        phone+
+                phone,
 
-        "\n\n"+
+                status:"failed",
 
-        error.message
+                error:error.message
 
-    );
+            });
 
-    result.failed++;
-
-    result.logs.push({
-
-        phone,
-
-        status:"failed",
-
-        error:error.message
-
-    });
-
-}       
+        }
 
         if(onProgress){
 
