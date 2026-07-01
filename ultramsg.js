@@ -330,6 +330,20 @@ await UltraMsg.sendMessage(
 
 );
 
+alert(
+
+    JSON.stringify(
+
+        send,
+
+        null,
+
+        2
+
+    )
+
+);
+
 console.log(send);
 
 if(
