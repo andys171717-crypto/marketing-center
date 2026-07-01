@@ -337,6 +337,12 @@ document.getElementById("testUltraBtn");
 const ultraStatusText =
 document.getElementById("ultraStatus");
 
+const importCsvBtn =
+document.getElementById("importCsvBtn");
+
+const csvFileInput =
+document.getElementById("csvFileInput");
+
 // ==========================
 // SAVE
 // ==========================
@@ -922,6 +928,40 @@ document
     saveContacts();
 
     renderContacts();
+
+};
+
+importCsvBtn.onclick=function(){
+
+    csvFileInput.click();
+
+};
+
+csvFileInput.onchange=function(){
+
+    const file=
+    this.files[0];
+
+    if(!file){
+
+        return;
+
+    }
+
+    const reader=
+    new FileReader();
+
+    reader.onload=function(event){
+
+        alert(
+
+            event.target.result
+
+        );
+
+    };
+
+    reader.readAsText(file);
 
 };
 
