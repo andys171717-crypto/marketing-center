@@ -13,6 +13,24 @@ const STORAGE_HISTORY = "mc_history";
 const STORAGE_DRAFT = "mc_draft";
 
 // ==========================================
+// FIRESTORE
+// ==========================================
+
+import {
+
+    getContacts,
+
+    addContact as addContactFirestore,
+
+    updateContact as updateContactFirestore,
+
+    deleteContact as deleteContactFirestore
+
+}
+
+from "./firestore-service.js";
+
+// ==========================================
 // ULTRAMSG CONFIG
 // ==========================================
 
@@ -263,8 +281,7 @@ async function testUltraConnection(){
 // DATA
 // ==========================
 
-let contacts =
-JSON.parse(localStorage.getItem(STORAGE_CONTACTS)) || [];
+let contacts = [];
 
 let templates =
 JSON.parse(localStorage.getItem(STORAGE_TEMPLATES)) || [];
@@ -565,7 +582,9 @@ function renderHistory(){
 // INIT
 // ==========================
 
-function init(){
+async function init(){
+
+    contacts = await getContacts();
 
     updateDashboard();
 
@@ -583,7 +602,7 @@ init();
 // CONTACT
 // ==========================
 
-function addContact(){
+async function addContact(){
 
     const name =
     prompt("Nama Kontak");
@@ -595,21 +614,25 @@ function addContact(){
 
     if(!phone) return;
 
-    contacts.push({
+    await addContactFirestore({
 
-    id:Date.now(),
+        name:name,
 
-    name:name,
+        phone:phone,
 
-    phone:phone,
+        category:"customer",
 
-    category:"customer",
+        status:"active",
 
-    selected:false
+        selected:false,
 
-});
+        notes:"",
 
-    saveContacts();
+        tags:["default"]
+
+    });
+
+    contacts = await getContacts();
 
     renderContacts();
 
@@ -617,14 +640,20 @@ function addContact(){
 
 }
 
-function deleteContact(index){
+async function deleteContact(index){
 
-    if(!confirm("Hapus kontak ini?"))
+    if(
+        !confirm("Hapus kontak ini?")
+    ){
         return;
+    }
 
-    contacts.splice(index,1);
+    await deleteContactFirestore(
+        contacts[index].id
+    );
 
-    saveContacts();
+    contacts =
+    await getContacts();
 
     renderContacts();
 
