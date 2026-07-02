@@ -146,6 +146,40 @@ export async function deleteContact(id){
 
 }
 
+/* ==========================================
+   IMPORT CONTACTS
+========================================== */
+
+export async function importContacts(contacts){
+
+    const ids = [];
+
+    for(const contact of contacts){
+
+        const ref = await addDoc(
+
+            CONTACTS,
+
+            {
+
+                ...contact,
+
+                createdAt: serverTimestamp(),
+
+                updatedAt: serverTimestamp()
+
+            }
+
+        );
+
+        ids.push(ref.id);
+
+    }
+
+    return ids;
+
+}
+
 console.log(
     "Firestore Service Ready"
 );
