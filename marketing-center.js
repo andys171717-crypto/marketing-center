@@ -1367,6 +1367,9 @@ document.getElementById("googleLoginBtn");
 const logoutBtn =
 document.getElementById("logoutBtn");
 
+const currentUserEmail =
+document.getElementById("currentUserEmail");
+
 googleLoginBtn.onclick = async function(){
 
     try{
@@ -1420,6 +1423,9 @@ onAuthStateChanged(
 
             await init();
 
+currentUserEmail.textContent =
+user.email;
+
         }
 
         splashScreen.style.display = "none";
@@ -1432,13 +1438,16 @@ onAuthStateChanged(
 
         }
 
-        else{
+else{
 
-            loginScreen.style.display = "flex";
+    currentUserEmail.textContent =
+    "Belum Login";
 
-            appScreen.style.display = "none";
+    loginScreen.style.display = "flex";
 
-        }
+    appScreen.style.display = "none";
+
+}       
 
     }
 
