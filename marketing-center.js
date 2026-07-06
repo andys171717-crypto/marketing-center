@@ -1547,9 +1547,30 @@ csvFileInput.onchange = function(){
 
 };
 
-
 previewCsvBtn.onclick = function(){
 
-    alert("Preview CSV akan kita buat pada tahap berikutnya.");
+    if(!csvFileInput.files.length){
+
+        alert("Silakan pilih file CSV terlebih dahulu.");
+
+        return;
+
+    }
+
+    const file = csvFileInput.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        const csv = e.target.result;
+
+        console.log(csv);
+
+        alert("CSV berhasil dibaca. Tahap berikutnya kita tampilkan Preview.");
+
+    };
+
+    reader.readAsText(file);
 
 };
