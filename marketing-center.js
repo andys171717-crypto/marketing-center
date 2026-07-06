@@ -1561,16 +1561,90 @@ previewCsvBtn.onclick = function(){
 
     const reader = new FileReader();
 
-    reader.onload = function(e){
+reader.onload = function(e){
 
-        const csv = e.target.result;
+    const text = e.target.result;
 
-        console.log(csv);
+    const importType =
+    document.getElementById("importType").value;
 
-        alert("CSV berhasil dibaca. Tahap berikutnya kita tampilkan Preview.");
+    if(importType==="vcf"){
 
-    };
+        previewVCF(text);
+
+        return;
+
+    }
+
+    alert("Preview CSV akan dibuat pada tahap berikutnya.");
+
+};   
 
     reader.readAsText(file);
 
 };
+
+/* ==========================================
+   VCF PREVIEW
+========================================== */
+
+function previewVCF(text){
+
+    const cards =
+    text.split("BEGIN:VCARD");
+
+    let total=0;
+
+    let preview="";
+
+    for(const card of cards){
+
+        if(!card.includes("TEL")){
+
+            continue;
+
+        }
+
+        total++;
+
+        const nameMatch =
+        card.match(/FN:(.+)/);
+
+        const telMatch =
+        card.match(/TEL[^:]*:(.+)/);
+
+        const name =
+        nameMatch ?
+        nameMatch[1].trim() :
+        "(Tanpa Nama)";
+
+        const phone =
+        telMatch ?
+        telMatch[1].trim() :
+        "-";
+
+        preview +=
+        name+
+        "\n"+
+        phone+
+        "\n\n";
+
+        if(total>=10){
+
+            break;
+
+        }
+
+    }
+
+    alert(
+
+        "Preview 10 kontak pertama\n\n"+
+
+        preview+
+
+        "\nTotal kontak ditemukan: "+total
+
+    );
+
+}
