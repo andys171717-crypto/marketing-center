@@ -371,29 +371,41 @@
 
     <div class="modal-content">
 
-        <h2>📥 Import Kontak CSV</h2>
+        <h2>📥 Import Kontak</h2>
 
-        <p>
+<p>
 
-            Pilih file CSV untuk di-preview sebelum diimport.
+    Pilih sumber kontak yang ingin diimport.
 
-        </p>
+</p>       
 
-        <input
+<select id="importType">
 
-            type="file"
+    <option value="csv">
 
-            id="csvFileInput"
+        📄 CSV (Excel / Google Contacts)
 
-            accept=".csv"
+    </option>
 
-            hidden>
+    <option value="vcf">
 
-        <button id="chooseCsvBtn">
+        👤 VCF (Kontak Android)
 
-            📂 Pilih File CSV
+    </option>
 
-        </button>
+</select>
+
+<input
+    type="file"
+    id="csvFileInput"
+    accept=".csv,.vcf"
+    hidden>
+
+<button id="chooseCsvBtn">
+
+    📂 Pilih File
+
+</button>
 
         <p id="csvFileName">
 
