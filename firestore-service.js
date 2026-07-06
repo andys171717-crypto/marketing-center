@@ -199,6 +199,16 @@ export async function deleteContact(id){
 
 export async function importContacts(contacts){
 
+    const user = auth.currentUser;
+
+    if(!user){
+
+        throw new Error(
+            "User belum login."
+        );
+
+    }
+
     const ids = [];
 
     for(const contact of contacts){
@@ -210,6 +220,8 @@ export async function importContacts(contacts){
             {
 
                 ...contact,
+
+                uid: user.uid,
 
                 createdAt: serverTimestamp(),
 
