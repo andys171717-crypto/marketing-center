@@ -1037,3 +1037,125 @@ body{
     }
 
 }
+
+/* ==========================================
+   IMPORT CSV MODAL
+========================================== */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.45);
+
+    z-index:999999;
+
+    padding:20px;
+
+}
+
+.modal-content{
+
+    width:min(100%,520px);
+
+    background:#ffffff;
+
+    border-radius:22px;
+
+    padding:24px;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+
+    animation:fadeIn .25s ease;
+
+}
+
+.modal-content h2{
+
+    color:#0F6FFF;
+
+    margin-bottom:12px;
+
+}
+
+.modal-content p{
+
+    color:#666;
+
+    margin-bottom:18px;
+
+    line-height:1.6;
+
+}
+
+#chooseCsvBtn{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:15px;
+
+    background:#2E7D32;
+
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+#chooseCsvBtn:hover{
+
+    background:#1B5E20;
+
+}
+
+#csvFileName{
+
+    margin:18px 0;
+
+    padding:12px;
+
+    background:#F5F7FB;
+
+    border:1px dashed #C9D3E5;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    color:#666;
+
+}
+
+#closeImportModalBtn{
+
+    background:#E53935;
+
+    color:#fff;
+
+}
+
+#previewCsvBtn{
+
+    background:#0F6FFF;
+
+    color:#fff;
+
+}
