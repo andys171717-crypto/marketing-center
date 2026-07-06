@@ -331,8 +331,7 @@ let contacts = [];
 
 let templates = [];
 
-let history =
-JSON.parse(localStorage.getItem(STORAGE_HISTORY)) || [];
+let history = [];
 
 let draft = null;
 
@@ -426,8 +425,11 @@ function saveTemplates(){
 function saveHistory(){
 
     localStorage.setItem(
-        STORAGE_HISTORY,
+
+        getStorageKey(STORAGE_HISTORY),
+
         JSON.stringify(history)
+
     );
 
 }
@@ -655,6 +657,16 @@ draft = JSON.parse(
     )
 
 ) || null;
+
+history = JSON.parse(
+
+    localStorage.getItem(
+
+        getStorageKey(STORAGE_HISTORY)
+
+    )
+
+) || [];
 
 updateDashboard();
 
