@@ -30,6 +30,26 @@ import {
 
 from "./firestore-service.js";
 
+import {
+
+    auth,
+
+    googleProvider
+
+}
+
+from "./firebase-config.js";
+
+import {
+
+    signInWithPopup,
+
+    onAuthStateChanged
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
 // ==========================================
 // ULTRAMSG CONFIG
 // ==========================================
