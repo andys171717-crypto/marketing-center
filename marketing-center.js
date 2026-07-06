@@ -334,8 +334,7 @@ let templates = [];
 let history =
 JSON.parse(localStorage.getItem(STORAGE_HISTORY)) || [];
 
-let draft =
-JSON.parse(localStorage.getItem(STORAGE_DRAFT)) || null;
+let draft = null;
 
 // ==========================
 // ELEMENT
@@ -436,8 +435,11 @@ function saveHistory(){
 function saveDraft(){
 
     localStorage.setItem(
-        STORAGE_DRAFT,
+
+        getStorageKey(STORAGE_DRAFT),
+
         JSON.stringify(draft)
+
     );
 
 }
@@ -644,7 +646,25 @@ templates = JSON.parse(
 
 ) || [];
 
+draft = JSON.parse(
+
+    localStorage.getItem(
+
+        getStorageKey(STORAGE_DRAFT)
+
+    )
+
+) || null;
+
 updateDashboard();
+
+renderContacts();
+
+renderTemplates();
+
+renderHistory();
+
+loadDraft();
 
 renderContacts();
 
@@ -1098,9 +1118,13 @@ function resetForm(){
 
 function clearDraft(){
 
-    draft=null;
+    draft = null;
 
-    localStorage.removeItem(STORAGE_DRAFT);
+    localStorage.removeItem(
+
+        getStorageKey(STORAGE_DRAFT)
+
+    );
 
 }
 
