@@ -1588,6 +1588,8 @@ reader.onload = function(e){
    VCF PREVIEW
 ========================================== */
 
+let importedContacts = [];
+
 function previewVCF(text){
 
     const previewBox =
@@ -1605,6 +1607,8 @@ function previewVCF(text){
     let total = 0;
 
     let html = "";
+
+    importedContacts = [];
 
     for(const card of cards){
 
@@ -1631,6 +1635,24 @@ function previewVCF(text){
         telMatch ?
         telMatch[1].trim() :
         "-";
+
+importedContacts.push({
+
+    name:name,
+
+    phone:phone,
+
+    category:"customer",
+
+    status:"active",
+
+    selected:false,
+
+    notes:"",
+
+    tags:["default"]
+
+});
 
         if(total<=30){
 
@@ -1663,3 +1685,26 @@ function previewVCF(text){
     previewList.innerHTML = html;
 
 }
+
+const startImportBtn =
+document.getElementById("startImportBtn");
+
+startImportBtn.onclick = async function(){
+
+    if(importedContacts.length===0){
+
+        alert("Belum ada kontak yang siap diimport.");
+
+        return;
+
+    }
+
+    alert(
+
+        "Kontak siap diimport : " +
+
+        importedContacts.length
+
+    );
+
+};
