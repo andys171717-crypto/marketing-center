@@ -146,6 +146,16 @@ export async function updateContact(
 
 ){
 
+    const user = auth.currentUser;
+
+    if(!user){
+
+        throw new Error(
+            "User belum login."
+        );
+
+    }
+
     return await updateDoc(
 
         doc(
@@ -161,6 +171,8 @@ export async function updateContact(
         {
 
             ...data,
+
+            uid: user.uid,
 
             updatedAt:
             serverTimestamp()
