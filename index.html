@@ -363,6 +363,63 @@
 
     </section>
 
+<!-- ==========================================
+     IMPORT CSV POPUP
+========================================== -->
+
+<div id="importCsvModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2>📥 Import Kontak CSV</h2>
+
+        <p>
+
+            Pilih file CSV untuk di-preview sebelum diimport.
+
+        </p>
+
+        <input
+
+            type="file"
+
+            id="csvFileInput"
+
+            accept=".csv"
+
+            hidden>
+
+        <button id="chooseCsvBtn">
+
+            📂 Pilih File CSV
+
+        </button>
+
+        <p id="csvFileName">
+
+            Belum ada file dipilih.
+
+        </p>
+
+        <div class="button-group">
+
+            <button id="closeImportModalBtn">
+
+                Batal
+
+            </button>
+
+            <button id="previewCsvBtn">
+
+                Preview
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
 </div>
 
