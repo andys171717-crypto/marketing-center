@@ -744,3 +744,94 @@ body{
     opacity:.95;
 
 }
+
+/* ==========================================
+   GOOGLE LOGIN
+========================================== */
+
+#loginScreen{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#F4F7FC;
+
+    z-index:99999;
+
+}
+
+.login-card{
+
+    width:95%;
+    max-width:420px;
+
+    background:#fff;
+
+    border-radius:22px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.12);
+
+}
+
+.login-card h1{
+
+    color:#0F6FFF;
+
+    margin-bottom:15px;
+
+    font-size:34px;
+
+}
+
+.login-card p{
+
+    color:#666;
+
+    margin-bottom:28px;
+
+    line-height:1.6;
+
+}
+
+#googleLoginBtn{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    background:#0F6FFF;
+
+    color:#fff;
+
+    transition:.25s;
+
+}
+
+#googleLoginBtn:hover{
+
+    transform:translateY(-2px);
+
+    background:#0057D9;
+
+}
