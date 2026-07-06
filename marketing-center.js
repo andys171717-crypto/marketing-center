@@ -12,6 +12,30 @@ const STORAGE_TEMPLATES = "mc_templates";
 const STORAGE_HISTORY = "mc_history";
 const STORAGE_DRAFT = "mc_draft";
 
+// ==========================
+// USER SESSION
+// ==========================
+
+let currentUser = null;
+
+let currentUid = null;
+
+// ==========================
+// STORAGE HELPER
+// ==========================
+
+function getStorageKey(baseKey){
+
+    if(!currentUid){
+
+        return baseKey;
+
+    }
+
+    return `${baseKey}_${currentUid}`;
+
+}
+
 // ==========================================
 // FIRESTORE
 // ==========================================
@@ -618,7 +642,7 @@ async function init(){
 
 }
 
-init();
+// init();
 
 // ==========================
 // CONTACT
@@ -1374,29 +1398,35 @@ onAuthStateChanged(
 
     auth,
 
-    function(user){
+    async function(user){
 
-        setTimeout(function(){
+        currentUser = user;
 
-            splashScreen.style.display="none";
+        currentUid = user ? user.uid : null;
 
-            if(user){
+        if(user){
 
-                loginScreen.style.display="none";
+            await init();
 
-                appScreen.style.display="block";
+        }
 
-            }
+        splashScreen.style.display = "none";
 
-            else{
+        if(user){
 
-                loginScreen.style.display="flex";
+            loginScreen.style.display = "none";
 
-                appScreen.style.display="none";
+            appScreen.style.display = "block";
 
-            }
+        }
 
-        },1000);
+        else{
+
+            loginScreen.style.display = "flex";
+
+            appScreen.style.display = "none";
+
+        }
 
     }
 
