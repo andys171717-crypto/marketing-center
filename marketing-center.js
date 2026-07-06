@@ -1590,12 +1590,21 @@ reader.onload = function(e){
 
 function previewVCF(text){
 
+    const previewBox =
+    document.getElementById("importPreview");
+
+    const previewStats =
+    document.getElementById("previewStats");
+
+    const previewList =
+    document.getElementById("previewList");
+
     const cards =
     text.split("BEGIN:VCARD");
 
-    let total=0;
+    let total = 0;
 
-    let preview="";
+    let html = "";
 
     for(const card of cards){
 
@@ -1623,28 +1632,34 @@ function previewVCF(text){
         telMatch[1].trim() :
         "-";
 
-        preview +=
-        name+
-        "\n"+
-        phone+
-        "\n\n";
+        if(total<=30){
 
-        if(total>=10){
+            html += `
 
-            break;
+            <div class="preview-item">
+
+                <span>${name}</span>
+
+                <span>${phone}</span>
+
+            </div>
+
+            `;
 
         }
 
     }
 
-    alert(
+    previewBox.style.display = "block";
 
-        "Preview 10 kontak pertama\n\n"+
+    previewStats.innerHTML = `
 
-        preview+
+        <b>Total Kontak :</b> ${total}<br>
 
-        "\nTotal kontak ditemukan: "+total
+        <b>Preview :</b> 30 kontak pertama
 
-    );
+    `;
+
+    previewList.innerHTML = html;
 
 }
