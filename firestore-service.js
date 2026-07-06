@@ -4,7 +4,15 @@
    VERSION 1.0
 ========================================== */
 
-import { db } from "./firebase-config.js";
+import {
+
+    db,
+
+    auth
+
+}
+
+from "./firebase-config.js";
 
 import {
 
@@ -20,7 +28,11 @@ import {
 
     doc,
 
-    serverTimestamp
+serverTimestamp,
+
+query,
+
+where    
 
 } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
@@ -40,16 +52,39 @@ collection(
 
 export async function getContacts(){
 
-    const snapshot =
-    await getDocs(CONTACTS);
+    const user = auth.currentUser;
 
-    const data=[];
+    if(!user){
+
+        return [];
+
+    }
+
+    const q = query(
+
+        CONTACTS,
+
+        where(
+
+            "uid",
+
+            "==",
+
+            user.uid
+
+        )
+
+    );
+
+    const snapshot = await getDocs(q);
+
+    const data = [];
 
     snapshot.forEach(item=>{
 
         data.push({
 
-            id:item.id,
+            id: item.id,
 
             ...item.data()
 
@@ -67,6 +102,16 @@ export async function getContacts(){
 
 export async function addContact(contact){
 
+    const user = auth.currentUser;
+
+    if(!user){
+
+        throw new Error(
+            "User belum login."
+        );
+
+    }
+
     return await addDoc(
 
         CONTACTS,
@@ -74,6 +119,8 @@ export async function addContact(contact){
         {
 
             ...contact,
+
+            uid: user.uid,
 
             createdAt:
             serverTimestamp(),
