@@ -329,8 +329,7 @@ async function testUltraConnection(){
 
 let contacts = [];
 
-let templates =
-JSON.parse(localStorage.getItem(STORAGE_TEMPLATES)) || [];
+let templates = [];
 
 let history =
 JSON.parse(localStorage.getItem(STORAGE_HISTORY)) || [];
@@ -416,8 +415,11 @@ function saveContacts(){
 function saveTemplates(){
 
     localStorage.setItem(
-        STORAGE_TEMPLATES,
+
+        getStorageKey(STORAGE_TEMPLATES),
+
         JSON.stringify(templates)
+
     );
 
 }
@@ -630,15 +632,25 @@ function renderHistory(){
 
 async function init(){
 
-    contacts = await getContacts();
+contacts = await getContacts();
 
-    updateDashboard();
+templates = JSON.parse(
 
-    renderContacts();
+    localStorage.getItem(
 
-    renderTemplates();
+        getStorageKey(STORAGE_TEMPLATES)
 
-    renderHistory();
+    )
+
+) || [];
+
+updateDashboard();
+
+renderContacts();
+
+renderTemplates();
+
+renderHistory();   
 
 }
 
