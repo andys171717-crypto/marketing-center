@@ -1488,3 +1488,68 @@ else{
     }
 
 );
+
+/* ==========================================
+   IMPORT CSV
+========================================== */
+
+const importCsvBtn =
+document.getElementById("importCsvBtn");
+
+const importCsvModal =
+document.getElementById("importCsvModal");
+
+const chooseCsvBtn =
+document.getElementById("chooseCsvBtn");
+
+const closeImportModalBtn =
+document.getElementById("closeImportModalBtn");
+
+const csvFileInput =
+document.getElementById("csvFileInput");
+
+const csvFileName =
+document.getElementById("csvFileName");
+
+const previewCsvBtn =
+document.getElementById("previewCsvBtn");
+
+
+importCsvBtn.onclick = function(){
+
+    importCsvModal.style.display = "flex";
+
+};
+
+
+closeImportModalBtn.onclick = function(){
+
+    importCsvModal.style.display = "none";
+
+};
+
+
+chooseCsvBtn.onclick = function(){
+
+    csvFileInput.click();
+
+};
+
+
+csvFileInput.onchange = function(){
+
+    if(this.files.length){
+
+        csvFileName.textContent =
+        this.files[0].name;
+
+    }
+
+};
+
+
+previewCsvBtn.onclick = function(){
+
+    alert("Preview CSV akan kita buat pada tahap berikutnya.");
+
+};
