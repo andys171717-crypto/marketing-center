@@ -1322,6 +1322,9 @@ document.getElementById("loginScreen");
 const appScreen =
 document.getElementById("app");
 
+const splashScreen =
+document.getElementById("splashScreen");
+
 const googleLoginBtn =
 document.getElementById("googleLoginBtn");
 
@@ -1373,21 +1376,27 @@ onAuthStateChanged(
 
     function(user){
 
-        if(user){
+        setTimeout(function(){
 
-            loginScreen.style.display="none";
+            splashScreen.style.display="none";
 
-            appScreen.style.display="block";
+            if(user){
 
-        }
+                loginScreen.style.display="none";
 
-        else{
+                appScreen.style.display="block";
 
-            loginScreen.style.display="flex";
+            }
 
-            appScreen.style.display="none";
+            else{
 
-        }
+                loginScreen.style.display="flex";
+
+                appScreen.style.display="none";
+
+            }
+
+        },1000);
 
     }
 
