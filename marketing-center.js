@@ -1310,3 +1310,62 @@ console.log(
 "Marketing Center V1 Ready"
 );
 
+// ==========================================
+// GOOGLE LOGIN
+// ==========================================
+
+const loginScreen =
+document.getElementById("loginScreen");
+
+const appScreen =
+document.getElementById("app");
+
+const googleLoginBtn =
+document.getElementById("googleLoginBtn");
+
+googleLoginBtn.onclick = async function(){
+
+    try{
+
+        await signInWithPopup(
+            auth,
+            googleProvider
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+};
+
+onAuthStateChanged(
+
+    auth,
+
+    function(user){
+
+        if(user){
+
+            loginScreen.style.display="none";
+
+            appScreen.style.display="block";
+
+        }
+
+        else{
+
+            loginScreen.style.display="flex";
+
+            appScreen.style.display="none";
+
+        }
+
+    }
+
+);
