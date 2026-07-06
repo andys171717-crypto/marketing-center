@@ -44,6 +44,8 @@ import {
 
     signInWithPopup,
 
+    signOut,
+
     onAuthStateChanged
 
 }
@@ -1323,6 +1325,9 @@ document.getElementById("app");
 const googleLoginBtn =
 document.getElementById("googleLoginBtn");
 
+const logoutBtn =
+document.getElementById("logoutBtn");
+
 googleLoginBtn.onclick = async function(){
 
     try{
@@ -1331,6 +1336,24 @@ googleLoginBtn.onclick = async function(){
             auth,
             googleProvider
         );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+};
+
+logoutBtn.onclick = async function(){
+
+    try{
+
+        await signOut(auth);
 
     }
 
