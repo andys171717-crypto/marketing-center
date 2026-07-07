@@ -1320,7 +1320,121 @@ const oldStartBroadcast = startBroadcast;
 
 startBroadcast = async function(){
 
-    await oldStartBroadcast();
+    if(!validateBroadcast()){
+
+        return;
+
+    }
+
+    clearQueue();
+
+    const selectedContacts =
+
+        contactGroup.value==="selected"
+
+        ?
+
+        contacts.filter(
+
+            item=>item.selected
+
+        )
+
+        :
+
+        contacts;
+
+    if(selectedContacts.length===0){
+
+        alert(
+
+            "Belum ada kontak yang dipilih."
+
+        );
+
+        return;
+
+    }
+
+    for(const contact of selectedContacts){
+
+        addQueue({
+
+            campaignId:
+
+            broadcastName.value,
+
+            timelineId:
+
+            "default",
+
+            templateId:
+
+            "default",
+
+            phone:
+
+            contact.phone,
+
+            contactName:
+
+            contact.name,
+
+            schedule:
+
+            sendMode.value
+
+        });
+
+    }
+
+    const preview =
+
+    generatePreview();
+
+    if(preview.block>0){
+
+        alert(
+
+`Broadcast dibatalkan.
+
+Masih ada ${preview.block} data yang diblokir.
+
+Silakan buka Preview terlebih dahulu.`
+
+        );
+
+        return;
+
+    }
+
+    startRunner(
+
+        getQueue()
+
+    );
+
+    initSender({
+
+        apiUrl:
+
+        ultraApiUrl.value,
+
+        instanceId:
+
+        ultraInstanceId.value,
+
+        token:
+
+        ultraToken.value
+
+    });
+
+    alert(
+
+        "Runner berhasil dijalankan.\n\nTahap berikutnya kita akan mulai mengirim Queue satu per satu."
+
+    );
 
 };
 
