@@ -1495,7 +1495,7 @@ renderHistory();
 function loadUltraToForm(){
 
     const cfg =
-    UltraMsg.getConfig();
+    loadUltraConfig();
 
     ultraApiUrl.value =
     cfg.apiUrl || "";
@@ -1529,68 +1529,53 @@ editUltraBtn.onclick=function(){
 
     }
 
-    UltraMsg.init({
+    updateUltraConfig(
 
-        apiUrl:
-        ultraApiUrl.value,
+    ultraApiUrl.value,
 
-        instanceId:
-        ultraInstanceId.value,
+    ultraInstanceId.value,
 
-        token:
-        ultraToken.value
+    ultraToken.value
 
-    });
+);
 
-    ultraApiUrl.readOnly=true;
+initSender(
 
-    ultraInstanceId.readOnly=true;
+    loadUltraConfig()
 
-    ultraToken.readOnly=true;
+);
 
-    ultraEditMode=false;
+ultraApiUrl.readOnly=true;
 
-    editUltraBtn.textContent=
-    "✏ Edit Konfigurasi";
+ultraInstanceId.readOnly=true;
 
-    alert(
-        "Konfigurasi UltraMsg berhasil disimpan."
-    );
+ultraToken.readOnly=true;
+
+ultraEditMode=false;
+
+editUltraBtn.textContent=
+"✏ Edit Konfigurasi";
+
+alert(
+    "Konfigurasi UltraMsg berhasil disimpan."
+);
 
 };
 
 testUltraBtn.onclick = async function(){
 
-    try{
+    const connected = await testUltraConnection();
 
-        UltraMsg.init({
-
-            apiUrl: ultraApiUrl.value,
-
-            instanceId: ultraInstanceId.value,
-
-            token: ultraToken.value
-
-        });
-
-        const result =
-        await UltraMsg.testConnection();
+    if(connected){
 
         ultraStatusText.textContent =
         "Status : ✅ Terhubung";
 
-        console.log(result);
-
     }
-
-    catch(error){
+    else{
 
         ultraStatusText.textContent =
         "Status : ❌ Gagal";
-
-        console.error(error);
-
-        alert(error.message);
 
     }
 
