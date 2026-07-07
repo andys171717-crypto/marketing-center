@@ -146,7 +146,9 @@ import {
 
     nextRunnerJob,
 
-    completeRunner
+    completeRunner,
+
+    processNextJob
 
 }
 
@@ -1408,11 +1410,33 @@ Silakan buka Preview terlebih dahulu.`
 
     });
 
+    const result = await processNextJob(
+
+    broadcastMessage.value
+
+);
+
+if(!result){
+
     alert(
 
-        "Runner berhasil dijalankan.\n\nTahap berikutnya kita akan mulai mengirim Queue satu per satu."
+        "Queue kosong."
 
     );
+
+    return;
+
+}
+
+alert(
+
+`Pengiriman pertama selesai.
+
+Status : ${result.status}
+
+Nomor : ${result.phone}`
+
+);
 
 };
 
