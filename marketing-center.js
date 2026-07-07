@@ -692,11 +692,27 @@ function renderTemplates(){
 
             <p>${item.message}</p>
 
-            <button onclick="useTemplate(${index})">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
 
-                Gunakan
+<button onclick="useTemplate(${index})">
 
-            </button>
+    Gunakan
+
+</button>
+
+<button onclick="editTemplate(${index})">
+
+    ✏ Edit
+
+</button>
+
+<button onclick="deleteTemplateItem(${index})">
+
+    🗑 Hapus
+
+</button>
+
+</div>
 
         </div>
 
@@ -905,6 +921,54 @@ function useTemplate(index){
     templates[index].message;
 
 }
+
+window.useTemplate = useTemplate;
+
+function editTemplate(index){
+
+    const title = prompt(
+
+        "Nama Template",
+
+        templates[index].title
+
+    );
+
+    if(title===null){
+
+        return;
+
+    }
+
+    const message = prompt(
+
+        "Isi Template",
+
+        templates[index].message
+
+    );
+
+    if(message===null){
+
+        return;
+
+    }
+
+    templates[index] = {
+
+        title,
+
+        message
+
+    };
+
+    saveTemplates();
+
+    renderTemplates();
+
+}
+
+window.editTemplate = editTemplate;
 
 window.useTemplate = useTemplate;
 
