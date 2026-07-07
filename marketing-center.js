@@ -906,6 +906,8 @@ function useTemplate(index){
 
 }
 
+window.useTemplate = useTemplate;
+
 // ==========================
 // DRAFT
 // ==========================
