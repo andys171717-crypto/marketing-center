@@ -114,6 +114,26 @@ import {
 
 from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
+import {
+
+    clearQueue,
+
+    addQueue,
+
+    getQueue
+
+}
+
+from "./broadcast-queue.js";
+
+import {
+
+    generatePreview
+
+}
+
+from "./broadcast-preview.js";
+
 // ==========================================
 // ULTRAMSG CONFIG
 // ==========================================
@@ -900,40 +920,75 @@ function loadDraft(){
 
 function previewBroadcast(){
 
-    const text=
+    clearQueue();
 
-`Nama Broadcast :
+    let selectedContacts =
 
-${broadcastName.value}
+    contactGroup.value==="selected"
 
------------------------
+    ?
 
-Target :
+    contacts.filter(
 
-${contactGroup.value}
+        item=>item.selected
 
------------------------
+    )
 
-Pesan :
+    :
 
-${broadcastMessage.value}
+    contacts;
 
------------------------
+    for(const contact of selectedContacts){
 
-Mode :
+        addQueue({
 
-${sendMode.value}
+            campaignId:
 
-Tanggal :
+            broadcastName.value,
 
-${scheduleDate.value}
+            timelineId:
 
-Jam :
+            "default",
 
-${scheduleTime.value}
-`;
+            templateId:
 
-    alert(text);
+            "default",
+
+            phone:
+
+            contact.phone,
+
+            contactName:
+
+            contact.name,
+
+            schedule:
+
+            sendMode.value
+
+        });
+
+    }
+
+    const preview =
+
+    generatePreview();
+
+    alert(
+
+`SMART BROADCAST PREVIEW
+
+====================
+
+Total Target : ${preview.total}
+
+Siap Dikirim : ${preview.ok}
+
+Warning : ${preview.warning}
+
+Block : ${preview.block}`
+
+    );
 
 }
 
