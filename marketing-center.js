@@ -403,10 +403,8 @@ document.getElementById("ultraStatus");
 
 function saveContacts(){
 
-    localStorage.setItem(
-        STORAGE_CONTACTS,
-        JSON.stringify(contacts)
-    );
+    // Kontak sudah menggunakan Firestore.
+    // Fungsi ini sengaja dikosongkan.
 
 }
 
@@ -1046,14 +1044,14 @@ document
 
 document
 .getElementById("deleteSelectedBtn")
-.onclick=function(){
+.onclick = async function(){
 
-    const total=
+    const selectedContacts =
     contacts.filter(
-        item=>item.selected
-    ).length;
+        item => item.selected
+    );
 
-    if(total===0){
+    if(selectedContacts.length===0){
 
         alert(
             "Belum ada kontak yang dipilih."
@@ -1065,7 +1063,7 @@ document
 
     if(
         !confirm(
-            `Hapus ${total} kontak yang dipilih?`
+            `Hapus ${selectedContacts.length} kontak yang dipilih?`
         )
     ){
 
@@ -1073,12 +1071,16 @@ document
 
     }
 
-    contacts=
-    contacts.filter(
-        item=>!item.selected
-    );
+    for(const item of selectedContacts){
 
-    saveContacts();
+        await deleteContactFirestore(
+            item.id
+        );
+
+    }
+
+    contacts =
+    await getContacts();
 
     renderContacts();
 
@@ -1222,26 +1224,6 @@ scheduleTime
 // ==========================================
 // SAMPLE DATA
 // ==========================================
-
-if(contacts.length===0){
-
-    contacts.push({
-
-    id:Date.now(),
-
-    name:"Andy",
-
-    phone:"081234567890",
-
-    category:"customer",
-
-    selected:false
-
-});
-
-    saveContacts();
-
-}
 
 if(templates.length===0){
 
