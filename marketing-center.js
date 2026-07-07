@@ -323,7 +323,11 @@ function setUltraStatus(
 // TEST CONNECTION
 // ==========================================
 
-async function testUltraConnection(){
+async function testUltraConnection(
+
+    silent = false
+
+){
 
     if(
 
@@ -331,11 +335,15 @@ async function testUltraConnection(){
 
     ){
 
-        alert(
+        if(!silent){
 
-        "Konfigurasi UltraMsg belum lengkap."
+            alert(
 
-        );
+                "Konfigurasi UltraMsg belum lengkap."
+
+            );
+
+        }
 
         return false;
 
@@ -343,21 +351,13 @@ async function testUltraConnection(){
 
     try{
 
-        const response=
+        const response = await fetch(
 
-        await fetch(
-
-            `${ultraConfig.apiUrl}/${ultraConfig.instanceId}/instance/status`+
-
-            `?token=${ultraConfig.token}`
+            `${ultraConfig.apiUrl}/${ultraConfig.instanceId}/instance/status?token=${ultraConfig.token}`
 
         );
 
-        if(
-
-            response.ok
-
-        ){
+        if(response.ok){
 
             setUltraStatus(
 
@@ -367,11 +367,15 @@ async function testUltraConnection(){
 
             );
 
-            alert(
+            if(!silent){
 
-                "UltraMsg berhasil terhubung."
+                alert(
 
-            );
+                    "UltraMsg berhasil terhubung."
+
+                );
+
+            }
 
             return true;
 
@@ -385,11 +389,15 @@ async function testUltraConnection(){
 
         );
 
-        alert(
+        if(!silent){
 
-            "Koneksi gagal."
+            alert(
 
-        );
+                "Koneksi gagal."
+
+            );
+
+        }
 
         return false;
 
@@ -407,11 +415,15 @@ async function testUltraConnection(){
 
         );
 
-        alert(
+        if(!silent){
 
-            "Tidak dapat terhubung."
+            alert(
 
-        );
+                "Tidak dapat terhubung."
+
+            );
+
+        }
 
         return false;
 
@@ -1606,6 +1618,36 @@ testUltraBtn.onclick = async function(){
 };
 
 loadUltraToForm();
+
+(async function(){
+
+    if(!hasUltraConfig()){
+
+        ultraStatusText.textContent =
+        "Status : ⚪ Belum dikonfigurasi";
+
+        return;
+
+    }
+
+    ultraStatusText.textContent =
+    "Status : ⏳ Mengecek...";
+
+    const connected =
+    await testUltraConnection(true);
+
+    ultraStatusText.textContent =
+    connected
+
+    ?
+
+    "Status : ✅ Terhubung"
+
+    :
+
+    "Status : ❌ Gagal";
+
+})();
 
 console.log(
 "Marketing Center V1 Ready"
