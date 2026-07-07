@@ -127,16 +127,50 @@ export async function sendMessage(
 
     return{
 
-        success:
+    success:
 
-        response.ok,
+    response.ok,
 
-        apiDuration:
+    status:
 
-        finishedAt-startedAt,
+    response.ok
 
-        response:data
+    ?
 
-    };
+    "SUCCESS"
+
+    :
+
+    "FAILED",
+
+    apiDuration:
+
+    finishedAt-startedAt,
+
+    phone:
+
+    phone,
+
+    response:data,
+
+    error:
+
+    response.ok
+
+    ?
+
+    ""
+
+    :
+
+    (
+
+        data.message ||
+
+        "Unknown Error"
+
+    )
+
+};
 
 }
