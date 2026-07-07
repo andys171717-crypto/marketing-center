@@ -96,13 +96,23 @@ export function addQueue(
 
 export function nextQueueJob(){
 
-    return queues.find(
+    const job = queues.find(
 
-        item=>
+        item =>
 
         item.status==="WAITING"
 
-    ) || null;
+    );
+
+    if(!job){
+
+        return null;
+
+    }
+
+    job.status = "PROCESSING";
+
+    return job;
 
 }
 
