@@ -1699,11 +1699,33 @@ startImportBtn.onclick = async function(){
 
     }
 
+    let success = 0;
+
+    for(const item of importedContacts){
+
+        await addContactFirestore(item);
+
+        success++;
+
+    }
+
+    contacts = await getContacts();
+
+    renderContacts();
+
+    updateDashboard();
+
+    importCsvModal.style.display="none";
+
+    importedContacts=[];
+
     alert(
 
-        "Kontak siap diimport : " +
+        "Import selesai.\n\n"+
 
-        importedContacts.length
+        "Berhasil : "+success+
+
+        " kontak"
 
     );
 
