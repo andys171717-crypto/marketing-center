@@ -970,6 +970,40 @@ function editTemplate(index){
 
 window.editTemplate = editTemplate;
 
+function deleteTemplateItem(index){
+
+    if(
+
+        !confirm(
+
+            "Hapus template ini?"
+
+        )
+
+    ){
+
+        return;
+
+    }
+
+    templates.splice(
+
+        index,
+
+        1
+
+    );
+
+    saveTemplates();
+
+    renderTemplates();
+
+    updateDashboard();
+
+}
+
+window.deleteTemplateItem = deleteTemplateItem;
+
 window.useTemplate = useTemplate;
 
 // ==========================
