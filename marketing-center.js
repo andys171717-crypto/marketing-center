@@ -148,7 +148,7 @@ import {
 
     completeRunner,
 
-    processNextJob
+    processQueue
 
 }
 
@@ -1422,7 +1422,7 @@ Silakan buka Preview terlebih dahulu.`
 
     });
 
-    const result = await processNextJob(
+    const result = await processQueue(
 
     broadcastMessage.value
 
@@ -1436,17 +1436,19 @@ if(!result){
 
     );
 
-    return;
+        return;
 
 }
 
 alert(
 
-`Pengiriman pertama selesai.
+`Broadcast selesai.
 
-Status : ${result.status}
+Total diproses :
 
-Nomor : ${result.phone}`
+${getQueue().length}
+
+Runner berhasil menyelesaikan seluruh Queue.`
 
 );
 
