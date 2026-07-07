@@ -321,7 +321,7 @@ function calculateAverageDelay(
 
 export async function processNextJob(
 
-    message
+    context
 
 ){
 
@@ -339,11 +339,13 @@ export async function processNextJob(
 
     const result = await sendMessage(
 
-        job.phone,
+    job.phone,
 
-        message
+    job.message ??
 
-    );
+    context.message
+
+);
 
     addHistory({
 
@@ -399,7 +401,7 @@ export async function processNextJob(
 
 export async function processQueue(
 
-    message
+    context
 
 ){
 
@@ -407,13 +409,13 @@ export async function processQueue(
 
     while(runner.running){
 
-        const result =
+ const result =
 
-        await processNextJob(
+await processNextJob(
 
-            message
+    context
 
-        );
+);      
 
         if(!result){
 
