@@ -1768,21 +1768,57 @@ startImportBtn.onclick = async function(){
 
     }
 
-    let success = 0;
+contacts = await getContacts();
 
-    for(const item of importedContacts){
+const existingPhones =
+new Set(
 
-        await addContactFirestore(item);
+    contacts.map(
 
-        success++;
+        item => normalizePhone(item.phone)
+
+    )
+
+);
+
+let success = 0;
+
+let duplicate = 0;
+
+for(const item of importedContacts){
+
+    const phone =
+    normalizePhone(item.phone);
+
+    if(
+
+        phone === "" ||
+
+        existingPhones.has(phone)
+
+    ){
+
+        duplicate++;
+
+        continue;
 
     }
 
-    contacts = await getContacts();
+    item.phone = phone;
 
-    renderContacts();
+    await addContactFirestore(item);
 
-    updateDashboard();
+    existingPhones.add(phone);
+
+    success++;
+
+}
+
+contacts = await getContacts();
+
+renderContacts();
+
+updateDashboard();   
 
  importedContacts = [];
 
@@ -1805,15 +1841,15 @@ document.getElementById(
 
 importCsvModal.style.display = "none"; 
 
-    alert(
+ alert(
 
-        "Import selesai.\n\n"+
+    "Import selesai\n\n"+
 
-        "Berhasil : "+success+
+    "Berhasil : "+success+"\n"+
 
-        " kontak"
+    "Duplikat : "+duplicate
 
-    );
+); 
 
 };
 
