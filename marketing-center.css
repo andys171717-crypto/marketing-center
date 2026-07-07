@@ -1247,3 +1247,65 @@ body{
     font-weight:bold;
 
 }
+
+/* ==========================================
+   CONTACT TOOLBAR
+========================================== */
+
+.contact-toolbar{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-bottom:18px;
+
+}
+
+#contactSearch{
+
+    flex:1;
+
+}
+
+#toggleContactsBtn{
+
+    border:none;
+
+    background:#0F6FFF;
+
+    color:#fff;
+
+    border-radius:12px;
+
+    padding:0 18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+#contactListWrapper{
+
+    margin-bottom:20px;
+
+}
+
+@media(max-width:768px){
+
+    .contact-toolbar{
+
+        flex-direction:column;
+
+    }
+
+    #toggleContactsBtn{
+
+        width:100%;
+
+        height:48px;
+
+    }
+
+}
