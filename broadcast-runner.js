@@ -124,3 +124,67 @@ export function nextRunnerJob(){
     runner.processed++;
 
 }
+
+/* ==========================================
+   COMPLETE
+========================================== */
+
+export function completeRunner(){
+
+    runner.running = false;
+
+    runner.stopped = false;
+
+    runner.currentJob = null;
+
+}
+
+/* ==========================================
+   PROGRESS
+========================================== */
+
+export function getRunnerProgress(){
+
+    return {
+
+        total:
+
+        runner.queueLength,
+
+        processed:
+
+        runner.processed,
+
+        remaining:
+
+        Math.max(
+
+            0,
+
+            runner.queueLength -
+
+            runner.processed
+
+        ),
+
+        percent:
+
+        runner.queueLength===0
+
+        ? 0
+
+        : Math.round(
+
+            (
+
+                runner.processed /
+
+                runner.queueLength
+
+            ) * 100
+
+        )
+
+    };
+
+}
