@@ -469,6 +469,7 @@ const contactListWrapper =
 document.getElementById("contactListWrapper");
 
 let contactVisible = false;
+let templateVisible = false;
 
 const templateList =
 document.getElementById("templateList");
@@ -2390,6 +2391,40 @@ toggleContactsBtn.onclick = function(){
 
         toggleContactsBtn.textContent =
         "📂 Tampilkan Kontak";
+
+    }
+
+};
+
+const toggleTemplatesBtn =
+document.getElementById(
+    "toggleTemplatesBtn"
+);
+
+const templateListWrapper =
+document.getElementById(
+    "templateListWrapper"
+);
+
+toggleTemplatesBtn.onclick = function(){
+
+    templateVisible = !templateVisible;
+
+    if(templateVisible){
+
+        templateListWrapper.style.display =
+        "block";
+
+        toggleTemplatesBtn.textContent =
+        "📁 Sembunyikan Template";
+
+    }else{
+
+        templateListWrapper.style.display =
+        "none";
+
+        toggleTemplatesBtn.textContent =
+        "📂 Tampilkan Template";
 
     }
 
