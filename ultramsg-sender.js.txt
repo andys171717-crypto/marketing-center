@@ -1,0 +1,142 @@
+/* ==========================================
+   ULTRAMSG SENDER
+   VERSION 1.0
+========================================== */
+
+let config={
+
+    apiUrl:"",
+
+    instanceId:"",
+
+    token:""
+
+};
+
+/* ==========================================
+   INIT
+========================================== */
+
+export function initSender(
+
+    senderConfig
+
+){
+
+    config={
+
+        ...senderConfig
+
+    };
+
+}
+
+/* ==========================================
+   READY
+========================================== */
+
+export function isReady(){
+
+    return(
+
+        config.apiUrl!=="" &&
+
+        config.instanceId!=="" &&
+
+        config.token!==""
+
+    );
+
+}
+
+/* ==========================================
+   ENDPOINT
+========================================== */
+
+function endpoint(){
+
+    return(
+
+        `${config.apiUrl}/`+
+
+        `${config.instanceId}`+
+
+        `/messages/chat`
+
+    );
+
+}
+
+/* ==========================================
+   SEND MESSAGE
+========================================== */
+
+export async function sendMessage(
+
+    phone,
+
+    message
+
+){
+
+    const startedAt=
+
+    Date.now();
+
+    const response=
+
+    await fetch(
+
+        endpoint(),
+
+        {
+
+            method:"POST",
+
+            headers:{
+
+                "Content-Type":
+
+                "application/json"
+
+            },
+
+            body:JSON.stringify({
+
+                token:
+
+                config.token,
+
+                to:phone,
+
+                body:message
+
+            })
+
+        }
+
+    );
+
+    const finishedAt=
+
+    Date.now();
+
+    const data=
+
+    await response.json();
+
+    return{
+
+        success:
+
+        response.ok,
+
+        apiDuration:
+
+        finishedAt-startedAt,
+
+        response:data
+
+    };
+
+}
