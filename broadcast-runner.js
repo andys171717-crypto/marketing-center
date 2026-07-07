@@ -188,3 +188,19 @@ export function getRunnerProgress(){
     };
 
 }
+
+/* ==========================================
+   CURRENT JOB
+========================================== */
+
+export function hasCurrentJob(){
+
+    return runner.currentJob!==null;
+
+}
+
+export function clearCurrentJob(){
+
+    runner.currentJob=null;
+
+}
