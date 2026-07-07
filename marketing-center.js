@@ -684,41 +684,51 @@ function renderTemplates(){
 
     templates.forEach((item,index)=>{
 
-        templateList.innerHTML += `
+    if(item.active===undefined){
+
+        item.active = true;
+
+    }
+
+    templateList.innerHTML += `
 
         <div class="template-item">
 
-            <h4>${item.title}</h4>
+            <label style="display:flex;align-items:center;gap:10px;">
+
+                <input
+                    type="checkbox"
+                    class="template-active"
+                    data-index="${index}"
+                    ${item.active ? "checked" : ""}>
+
+                <strong>${item.title}</strong>
+
+            </label>
 
             <p>${item.message}</p>
 
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
 
-<button onclick="useTemplate(${index})">
+                <button onclick="editTemplate(${index})">
 
-    Gunakan
+                    ✏ Edit
 
-</button>
+                </button>
 
-<button onclick="editTemplate(${index})">
+                <button onclick="deleteTemplateItem(${index})">
 
-    ✏ Edit
+                    🗑 Hapus
 
-</button>
+                </button>
 
-<button onclick="deleteTemplateItem(${index})">
-
-    🗑 Hapus
-
-</button>
-
-</div>
+            </div>
 
         </div>
 
-        `;
+    `;
 
-    });
+});
 
 }
 
@@ -966,6 +976,10 @@ function editTemplate(index){
 
     renderTemplates();
 
+updateActiveTemplateInfo();
+
+bindTemplateCheckbox();
+
 }
 
 window.editTemplate = editTemplate;
@@ -1003,6 +1017,62 @@ function deleteTemplateItem(index){
 }
 
 window.deleteTemplateItem = deleteTemplateItem;
+
+function bindTemplateCheckbox(){
+
+    document
+    .querySelectorAll(".template-active")
+    .forEach(item=>{
+
+        item.onchange=function(){
+
+            const index =
+            Number(this.dataset.index);
+
+            templates[index].active =
+            this.checked;
+
+            saveTemplates();
+
+            updateActiveTemplateInfo();
+
+        };
+
+    });
+
+}
+
+function updateActiveTemplateInfo(){
+
+    const info =
+    document.getElementById(
+        "activeTemplateInfo"
+    );
+
+    if(!info){
+
+        return;
+
+    }
+
+    const active =
+    templates.filter(
+        item=>item.active
+    );
+
+    info.textContent =
+
+    active.length===0
+
+    ?
+
+    "Belum ada template aktif."
+
+    :
+
+    `Template Aktif : ${active.length}`;
+
+}
 
 window.useTemplate = useTemplate;
 
