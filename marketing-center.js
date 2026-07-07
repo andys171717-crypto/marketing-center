@@ -1364,33 +1364,21 @@ startBroadcast = async function(){
 
             broadcastName.value,
 
-            timelineId:
+            timelineId:"default",
 
-            "default",
+            templateId:"default",
 
-            templateId:
+            phone:contact.phone,
 
-            "default",
+            contactName:contact.name,
 
-            phone:
-
-            contact.phone,
-
-            contactName:
-
-            contact.name,
-
-            schedule:
-
-            sendMode.value
+            schedule:sendMode.value
 
         });
 
     }
 
-    const preview =
-
-    generatePreview();
+    const preview = generatePreview();
 
     if(preview.block>0){
 
@@ -1408,25 +1396,15 @@ Silakan buka Preview terlebih dahulu.`
 
     }
 
-    startRunner(
-
-        getQueue()
-
-    );
+    startRunner(getQueue());
 
     initSender({
 
-        apiUrl:
+        apiUrl:ultraApiUrl.value,
 
-        ultraApiUrl.value,
+        instanceId:ultraInstanceId.value,
 
-        instanceId:
-
-        ultraInstanceId.value,
-
-        token:
-
-        ultraToken.value
+        token:ultraToken.value
 
     });
 
@@ -1437,6 +1415,10 @@ Silakan buka Preview terlebih dahulu.`
     );
 
 };
+
+document
+.getElementById("startBroadcastBtn")
+.onclick = startBroadcast;
 
 // ==========================================
 // AUTO SAVE DRAFT
