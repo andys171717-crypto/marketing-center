@@ -75,6 +75,11 @@ export function addQueue(
 
         "",
 
+        message:
+        job.message ||
+
+        "",
+
         schedule:
         job.schedule ||
 
