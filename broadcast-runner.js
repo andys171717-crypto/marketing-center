@@ -3,6 +3,42 @@
    VERSION 1.0
 ========================================== */
 
+import {
+
+    nextQueueJob,
+
+    updateQueueStatus
+
+}
+
+from "./broadcast-queue.js";
+
+import {
+
+    sendMessage
+
+}
+
+from "./ultramsg-sender.js";
+
+import {
+
+    addHistory
+
+}
+
+from "./broadcast-history.js";
+
+import {
+
+    addSuccess,
+
+    addFailed
+
+}
+
+from "./broadcast-engine.js";
+
 let runner={
 
     running:false,
@@ -202,5 +238,87 @@ export function hasCurrentJob(){
 export function clearCurrentJob(){
 
     runner.currentJob=null;
+
+}
+
+/* ==========================================
+   PROCESS ONE JOB
+========================================== */
+
+export async function processNextJob(
+
+    message
+
+){
+
+    const job = nextQueueJob();
+
+    if(!job){
+
+        completeRunner();
+
+        return null;
+
+    }
+
+    setCurrentJob(job);
+
+    const result = await sendMessage(
+
+        job.phone,
+
+        message
+
+    );
+
+    addHistory({
+
+        campaignId:job.campaignId,
+
+        timelineId:job.timelineId,
+
+        templateId:job.templateId,
+
+        phone:job.phone,
+
+        contactName:job.contactName,
+
+        status:result.status,
+
+        apiDuration:result.apiDuration
+
+    });
+
+    if(result.success){
+
+        addSuccess();
+
+        updateQueueStatus(
+
+            job.id,
+
+            "SUCCESS"
+
+        );
+
+    }else{
+
+        addFailed();
+
+        updateQueueStatus(
+
+            job.id,
+
+            "FAILED"
+
+        );
+
+    }
+
+    nextRunnerJob();
+
+    clearCurrentJob();
+
+    return result;
 
 }
