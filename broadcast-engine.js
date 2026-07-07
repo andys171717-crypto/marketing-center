@@ -286,3 +286,49 @@ export function generateTimelineBreak(
     );
 
 }
+
+/* ==========================================
+   RESULT COUNTER
+========================================== */
+
+export function addSuccess(){
+
+    engine.success++;
+
+}
+
+export function addFailed(){
+
+    engine.failed++;
+
+}
+
+export function addSkipped(){
+
+    engine.skipped++;
+
+}
+
+export function getEngineSummary(){
+
+    return{
+
+        success:
+
+        engine.success,
+
+        failed:
+
+        engine.failed,
+
+        skipped:
+
+        engine.skipped,
+
+        total:
+
+        engine.queue.length
+
+    };
+
+}
