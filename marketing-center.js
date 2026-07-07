@@ -351,6 +351,17 @@ document.getElementById("totalBroadcast");
 const contactList =
 document.getElementById("contactList");
 
+const contactSearch =
+document.getElementById("contactSearch");
+
+const toggleContactsBtn =
+document.getElementById("toggleContactsBtn");
+
+const contactListWrapper =
+document.getElementById("contactListWrapper");
+
+let contactVisible = false;
+
 const templateList =
 document.getElementById("templateList");
 
@@ -1762,5 +1773,55 @@ importCsvModal.style.display = "none";
         " kontak"
 
     );
+
+};
+
+/* ==========================================
+   CONTACT TOOLBAR
+========================================== */
+
+toggleContactsBtn.onclick = function(){
+
+    contactVisible = !contactVisible;
+
+    if(contactVisible){
+
+        contactListWrapper.style.display = "block";
+
+        toggleContactsBtn.textContent =
+        "📁 Sembunyikan Kontak";
+
+    }else{
+
+        contactListWrapper.style.display = "none";
+
+        toggleContactsBtn.textContent =
+        "📂 Tampilkan Kontak";
+
+    }
+
+};
+
+contactSearch.oninput = function(){
+
+    const keyword =
+    this.value
+    .trim()
+    .toLowerCase();
+
+    document
+    .querySelectorAll(".contact-item")
+    .forEach(item=>{
+
+        item.style.display =
+        item.innerText
+        .toLowerCase()
+        .includes(keyword)
+
+        ? ""
+
+        : "none";
+
+    });
 
 };
