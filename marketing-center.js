@@ -1422,11 +1422,17 @@ Silakan buka Preview terlebih dahulu.`
 
     });
 
-    const result = await processQueue(
+    const result = await processQueue({
 
-    broadcastMessage.value
+    message:
 
-);
+    broadcastMessage.value,
+
+    campaignId:
+
+    broadcastName.value
+
+});
 
 if(!result){
 
