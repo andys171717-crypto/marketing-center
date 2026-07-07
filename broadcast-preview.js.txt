@@ -1,0 +1,154 @@
+/* ==========================================
+   BROADCAST PREVIEW
+   VERSION 1.0
+========================================== */
+
+import {
+
+    getQueue
+
+}
+
+from "./broadcast-queue.js";
+
+import {
+
+    invalidPhoneRule,
+
+    duplicatePhoneRule,
+
+    RULE_LEVEL
+
+}
+
+from "./broadcast-rules.js";
+
+/* ==========================================
+   GENERATE PREVIEW
+========================================== */
+
+export function generatePreview(){
+
+    const queue = getQueue();
+
+    const phoneSet = new Set();
+
+    const result = {
+
+        total: queue.length,
+
+        ok: 0,
+
+        warning: 0,
+
+        block: 0,
+
+        details: []
+
+    };
+
+    for(const job of queue){
+
+        const rules = [];
+
+        rules.push(
+
+            invalidPhoneRule(
+
+                job.phone
+
+            )
+
+        );
+
+        rules.push(
+
+            duplicatePhoneRule(
+
+                job.phone,
+
+                phoneSet
+
+            )
+
+        );
+
+        phoneSet.add(
+
+            job.phone
+
+        );
+
+        let blocked = false;
+
+        let warned = false;
+
+        for(const rule of rules){
+
+            if(rule.passed){
+
+                continue;
+
+            }
+
+            result.details.push({
+
+                phone: job.phone,
+
+                contactName: job.contactName,
+
+                level: rule.level,
+
+                code: rule.code,
+
+                title: rule.title,
+
+                message: rule.message
+
+            });
+
+            if(
+
+                rule.level===RULE_LEVEL.BLOCK
+
+            ){
+
+                blocked = true;
+
+            }
+
+            if(
+
+                rule.level===RULE_LEVEL.WARNING
+
+            ){
+
+                warned = true;
+
+            }
+
+        }
+
+        if(blocked){
+
+            result.block++;
+
+        }
+
+        else if(warned){
+
+            result.warning++;
+
+        }
+
+        else{
+
+            result.ok++;
+
+        }
+
+    }
+
+    return result;
+
+}
