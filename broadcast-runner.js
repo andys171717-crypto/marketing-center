@@ -242,6 +242,80 @@ export function clearCurrentJob(){
 }
 
 /* ==========================================
+   HUMAN DELAY
+========================================== */
+
+function sleep(
+
+    seconds
+
+){
+
+    return new Promise(
+
+        resolve =>
+
+        setTimeout(
+
+            resolve,
+
+            seconds * 1000
+
+        )
+
+    );
+
+}
+
+function calculateAverageDelay(
+
+    totalContacts,
+
+    targetHours
+
+){
+
+    if(
+
+        totalContacts <= 0 ||
+
+        targetHours <= 0
+
+    ){
+
+        return 30;
+
+    }
+
+    const totalSeconds =
+
+    targetHours * 3600;
+
+    const buffer =
+
+    totalSeconds * 0.15;
+
+    const usableSeconds =
+
+    totalSeconds - buffer;
+
+    return Math.max(
+
+        15,
+
+        Math.floor(
+
+            usableSeconds /
+
+            totalContacts
+
+        )
+
+    );
+
+}
+
+/* ==========================================
    PROCESS ONE JOB
 ========================================== */
 
@@ -349,6 +423,60 @@ export async function processQueue(
 
         lastResult = result;
 
+const averageDelay =
+
+calculateAverageDelay(
+
+    runner.queueLength,
+
+    5
+
+);
+
+const variance =
+
+Math.floor(
+
+    averageDelay * 0.50
+
+);
+
+let delay =
+
+averageDelay +
+
+Math.floor(
+
+    Math.random() *
+
+    (variance * 2 + 1)
+
+) - variance;
+
+delay = Math.max(
+
+    15,
+
+    delay
+
+);
+
+console.log(
+
+    "Human Delay :",
+
+    delay,
+
+    "detik"
+
+);
+
+await sleep(
+
+    delay
+
+);
+        
     }
 
     completeRunner();
