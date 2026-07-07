@@ -1514,20 +1514,55 @@ document.getElementById("csvFileName");
 const previewCsvBtn =
 document.getElementById("previewCsvBtn");
 
-
 importCsvBtn.onclick = function(){
+
+    importedContacts = [];
+
+    csvFileInput.value = "";
+
+    csvFileName.textContent =
+    "Belum ada file dipilih.";
+
+    document.getElementById(
+        "importPreview"
+    ).style.display = "none";
+
+    document.getElementById(
+        "previewStats"
+    ).innerHTML = "";
+
+    document.getElementById(
+        "previewList"
+    ).innerHTML = "";
 
     importCsvModal.style.display = "flex";
 
 };
 
-
 closeImportModalBtn.onclick = function(){
+
+    importedContacts = [];
+
+    csvFileInput.value = "";
+
+    csvFileName.textContent =
+    "Belum ada file dipilih.";
+
+    document.getElementById(
+        "importPreview"
+    ).style.display = "none";
+
+    document.getElementById(
+        "previewStats"
+    ).innerHTML = "";
+
+    document.getElementById(
+        "previewList"
+    ).innerHTML = "";
 
     importCsvModal.style.display = "none";
 
 };
-
 
 chooseCsvBtn.onclick = function(){
 
@@ -1715,9 +1750,26 @@ startImportBtn.onclick = async function(){
 
     updateDashboard();
 
-    importCsvModal.style.display="none";
+ importedContacts = [];
 
-    importedContacts=[];
+csvFileInput.value = "";
+
+csvFileName.textContent =
+"Belum ada file dipilih.";
+
+document.getElementById(
+    "importPreview"
+).style.display = "none";
+
+document.getElementById(
+    "previewStats"
+).innerHTML = "";
+
+document.getElementById(
+    "previewList"
+).innerHTML = "";
+
+importCsvModal.style.display = "none"; 
 
     alert(
 
