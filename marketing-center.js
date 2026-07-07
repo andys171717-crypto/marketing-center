@@ -988,37 +988,83 @@ function previewBroadcast(){
 
     contacts;
 
-    for(const contact of selectedContacts){
+    let lastTemplateIndex = -1;
 
-        addQueue({
+for(const contact of selectedContacts){
 
-            campaignId:
+    if(templates.length===0){
 
-            broadcastName.value,
+        alert(
 
-            timelineId:
+            "Belum ada template."
 
-            "default",
+        );
 
-            templateId:
-
-            "default",
-
-            phone:
-
-            contact.phone,
-
-            contactName:
-
-            contact.name,
-
-            schedule:
-
-            sendMode.value
-
-        });
+        return;
 
     }
+
+    let templateIndex;
+
+    do{
+
+        templateIndex = Math.floor(
+
+            Math.random() *
+
+            templates.length
+
+        );
+
+    }
+
+    while(
+
+        templates.length > 1 &&
+
+        templateIndex === lastTemplateIndex
+
+    );
+
+    lastTemplateIndex = templateIndex;
+
+    const template =
+
+    templates[templateIndex];
+
+    addQueue({
+
+        campaignId:
+
+        broadcastName.value,
+
+        timelineId:
+
+        "default",
+
+        templateId:
+
+        template.title,
+
+        message:
+
+        template.message,
+
+        phone:
+
+        contact.phone,
+
+        contactName:
+
+        contact.name,
+
+        schedule:
+
+        sendMode.value
+
+    });
+
+}
 
     const preview =
 
