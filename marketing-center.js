@@ -36,6 +36,44 @@ function getStorageKey(baseKey){
 
 }
 
+/* ==========================================
+   NORMALIZE PHONE
+========================================== */
+
+function normalizePhone(phone){
+
+    if(!phone){
+
+        return "";
+
+    }
+
+    phone = phone.trim();
+
+    phone = phone.replace(/\D/g,"");
+
+    if(phone.startsWith("0")){
+
+        phone = "62" + phone.substring(1);
+
+    }
+
+    if(phone.startsWith("620")){
+
+        phone = "62" + phone.substring(3);
+
+    }
+
+    if(phone.startsWith("8")){
+
+        phone = "62" + phone;
+
+    }
+
+    return phone;
+
+}
+
 // ==========================================
 // FIRESTORE
 // ==========================================
@@ -1659,10 +1697,13 @@ function previewVCF(text){
         nameMatch[1].trim() :
         "(Tanpa Nama)";
 
-        const phone =
-        telMatch ?
-        telMatch[1].trim() :
-        "-";
+const rawPhone =
+telMatch ?
+telMatch[1] :
+"";
+
+const phone =
+normalizePhone(rawPhone);     
 
 importedContacts.push({
 
