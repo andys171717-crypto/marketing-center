@@ -322,3 +322,37 @@ export async function processNextJob(
     return result;
 
 }
+
+export async function processQueue(
+
+    message
+
+){
+
+    let lastResult = null;
+
+    while(runner.running){
+
+        const result =
+
+        await processNextJob(
+
+            message
+
+        );
+
+        if(!result){
+
+            break;
+
+        }
+
+        lastResult = result;
+
+    }
+
+    completeRunner();
+
+    return lastResult;
+
+}
