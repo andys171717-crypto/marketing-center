@@ -33,7 +33,9 @@ import {
 
     addSuccessContact,
 
-    addFailedContact
+    addFailedContact,
+
+    removeWaitingContact
 
 }
 
@@ -375,6 +377,12 @@ setSendingContact({
     job.phone
 
 });
+
+removeWaitingContact(
+
+    job.phone
+
+);
 
 window.dispatchEvent(
 
