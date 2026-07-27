@@ -1404,21 +1404,46 @@ function clearDraft(){
 
 function validateBroadcast(){
 
+    const activeTemplates =
+
+    templates.filter(
+        item=>item.active
+    );
+
+    // Nama broadcast otomatis bila kosong
+
     if(
         broadcastName.value.trim()===""
     ){
 
-        alert("Nama Broadcast belum diisi.");
+        broadcastName.value =
 
-        return false;
+        "Broadcast-" +
+
+        new Date()
+
+        .toISOString()
+
+        .replace(/[:.]/g,"-");
 
     }
 
+    // Jika tidak memakai template,
+    // pesan wajib diisi
+
     if(
+
+        activeTemplates.length===0 &&
+
         broadcastMessage.value.trim()===""
+
     ){
 
-        alert("Isi pesan masih kosong.");
+        alert(
+
+            "Isi pesan atau pilih minimal 1 template aktif."
+
+        );
 
         return false;
 
