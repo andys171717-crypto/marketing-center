@@ -5,6 +5,24 @@
 
 let histories = [];
 
+let broadcastState = {
+
+    campaign:"",
+
+    template:"",
+
+    message:"",
+
+    waiting:[],
+
+    sending:null,
+
+    success:[],
+
+    failed:[]
+
+};
+
 /* ==========================================
    ADD HISTORY
 ========================================== */
@@ -85,5 +103,95 @@ export function getHistories(){
 export function clearHistories(){
 
     histories=[];
+
+}
+
+/* ==========================================
+   BROADCAST STATE
+========================================== */
+
+export function getBroadcastState(){
+
+    return broadcastState;
+
+}
+
+export function resetBroadcastState(){
+
+    broadcastState = {
+
+        campaign:"",
+
+        template:"",
+
+        message:"",
+
+        waiting:[],
+
+        sending:null,
+
+        success:[],
+
+        failed:[]
+
+    };
+
+}
+
+export function setBroadcastInfo(
+
+    campaign,
+
+    template,
+
+    message
+
+){
+
+    broadcastState.campaign = campaign;
+
+    broadcastState.template = template;
+
+    broadcastState.message = message;
+
+}
+
+export function setWaitingContacts(
+
+    contacts
+
+){
+
+    broadcastState.waiting = [...contacts];
+
+}
+
+export function setSendingContact(
+
+    contact
+
+){
+
+    broadcastState.sending = contact;
+
+}
+
+export function addSuccessContact(
+
+    contact
+
+){
+
+    broadcastState.success.push(contact);
+
+}
+
+export function addFailedContact(
+
+    contact
+
+){
+
+    broadcastState.failed.push(contact);
 
 }
