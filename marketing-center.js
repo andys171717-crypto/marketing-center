@@ -166,7 +166,9 @@ from "./ultramsg-sender.js";
 
 import {
 
-    addHistory
+    addHistory,
+
+    getBroadcastState
 
 }
 
@@ -764,6 +766,15 @@ function renderBroadcastMonitor(data){
 
     }
 
+    const waiting =
+data.waiting || [];
+
+const success =
+data.success || [];
+
+const failed =
+data.failed || [];
+
     broadcastMonitor.innerHTML = `
 
 <div class="monitor-card">
@@ -794,11 +805,41 @@ ${data.message}
 
 <hr>
 
-<p><b>Kontak Diproses :</b></p>
+<p><b>🔵 Sedang Diproses</b></p>
 
 <div class="monitor-message">
 
-${data.contact}
+${data.contact || "-"}
+
+</div>
+
+<hr>
+
+<p><b>🟡 Dalam Antrian (${waiting.length})</b></p>
+
+<div class="monitor-message">
+
+${waiting.length ? waiting.join("<br>") : "-"}
+
+</div>
+
+<hr>
+
+<p><b>🟢 Berhasil (${success.length})</b></p>
+
+<div class="monitor-message">
+
+${success.length ? success.join("<br>") : "-"}
+
+</div>
+
+<hr>
+
+<p><b>🔴 Gagal (${failed.length})</b></p>
+
+<div class="monitor-message">
+
+${failed.length ? failed.join("<br>") : "-"}
 
 </div>
 
@@ -814,13 +855,21 @@ window.addEventListener(
 
     function(event){
 
+        const state =
+
+        getBroadcastState();
+
         renderBroadcastMonitor({
 
             campaign:
 
+            state.campaign ||
+
             event.detail.campaign,
 
             template:
+
+            state.template ||
 
             event.detail.template,
 
@@ -838,11 +887,25 @@ window.addEventListener(
 
             contact:
 
-            event.detail.contact ||
+            state.sending
 
-            event.detail.phone,
+            ?
+
+            `${state.sending.name} (${state.sending.phone})`
+
+            :
+
+            (
+
+                event.detail.contact ||
+
+                event.detail.phone
+
+            ),
 
             message:
+
+            state.message ||
 
             event.detail.message
 
