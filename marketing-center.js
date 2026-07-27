@@ -766,39 +766,91 @@ function renderBroadcastMonitor(data){
 
     broadcastMonitor.innerHTML = `
 
-        <div class="monitor-card">
+<div class="monitor-card">
 
-            <h3>${data.campaign}</h3>
+<h3>📡 ${data.campaign}</h3>
 
-            <p><b>Template :</b> ${data.template}</p>
+<p><b>Status :</b> ${data.status}</p>
 
-            <p><b>Status :</b> ${data.status}</p>
+<p><b>Progress :</b> ${data.processed} / ${data.total}</p>
 
-            <p><b>Progress :</b>
+<hr>
 
-            ${data.processed}
+<p><b>Template :</b></p>
 
-            /
+<div class="monitor-message">
 
-            ${data.total}</p>
+${data.template}
 
-            <p><b>Kontak :</b>
+</div>
 
-            ${data.contact}</p>
+<p><b>Pesan Broadcast :</b></p>
 
-            <p><b>Pesan :</b></p>
+<div class="monitor-message">
 
-            <div class="monitor-message">
+${data.message}
 
-                ${data.message}
+</div>
 
-            </div>
+<hr>
 
-        </div>
+<p><b>Kontak Diproses :</b></p>
 
-    `;
+<div class="monitor-message">
+
+${data.contact}
+
+</div>
+
+</div>
+
+`;
 
 }
+
+window.addEventListener(
+
+    "broadcast-progress",
+
+    function(event){
+
+        renderBroadcastMonitor({
+
+            campaign:
+
+            event.detail.campaign,
+
+            template:
+
+            event.detail.template,
+
+            status:
+
+            event.detail.status,
+
+            processed:
+
+            event.detail.processed,
+
+            total:
+
+            event.detail.total,
+
+            contact:
+
+            event.detail.contact ||
+
+            event.detail.phone,
+
+            message:
+
+            event.detail.message
+
+        });
+
+    }
+
+);
 
 function renderHistory(){
 
