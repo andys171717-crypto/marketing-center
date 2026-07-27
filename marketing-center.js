@@ -822,11 +822,9 @@ renderHistory();
 
 loadDraft();
 
-renderContacts();
+bindTemplateCheckbox();
 
-renderTemplates();
-
-renderHistory();   
+updateActiveTemplateInfo();   
 
 }
 
@@ -1139,6 +1137,81 @@ function loadDraft(){
 // PREVIEW
 // ==========================
 
+function buildBroadcastQueue(selectedContacts){
+
+    clearQueue();
+
+    const activeTemplates =
+    templates.filter(item=>item.active);
+
+    if(activeTemplates.length===0){
+
+        alert(
+            "Pilih minimal 1 template aktif."
+        );
+
+        return false;
+
+    }
+
+    let lastTemplateIndex = -1;
+
+    for(const contact of selectedContacts){
+
+        let templateIndex;
+
+        do{
+
+            templateIndex = Math.floor(
+                Math.random() *
+                activeTemplates.length
+            );
+
+        }
+
+        while(
+
+            activeTemplates.length > 1 &&
+
+            templateIndex === lastTemplateIndex
+
+        );
+
+        lastTemplateIndex = templateIndex;
+
+        const template =
+        activeTemplates[templateIndex];
+
+        addQueue({
+
+            campaignId:
+            broadcastName.value,
+
+            timelineId:"default",
+
+            templateId:
+            template.title,
+
+            message:
+            template.message,
+
+            phone:
+            contact.phone,
+
+            contactName:
+            contact.name,
+
+            schedule:
+            sendMode.value
+
+        });
+
+    }
+
+    return true;
+
+}
+
 function previewBroadcast(){
 
     clearQueue();
@@ -1159,81 +1232,17 @@ function previewBroadcast(){
 
     contacts;
 
-    let lastTemplateIndex = -1;
+    if(
 
-for(const contact of selectedContacts){
+    !buildBroadcastQueue(
 
-    if(templates.length===0){
+        selectedContacts
 
-        alert(
+    )
 
-            "Belum ada template."
+){
 
-        );
-
-        return;
-
-    }
-
-    let templateIndex;
-
-    do{
-
-        templateIndex = Math.floor(
-
-            Math.random() *
-
-            templates.length
-
-        );
-
-    }
-
-    while(
-
-        templates.length > 1 &&
-
-        templateIndex === lastTemplateIndex
-
-    );
-
-    lastTemplateIndex = templateIndex;
-
-    const template =
-
-    templates[templateIndex];
-
-    addQueue({
-
-        campaignId:
-
-        broadcastName.value,
-
-        timelineId:
-
-        "default",
-
-        templateId:
-
-        template.title,
-
-        message:
-
-        template.message,
-
-        phone:
-
-        contact.phone,
-
-        contactName:
-
-        contact.name,
-
-        schedule:
-
-        sendMode.value
-
-    });
+    return;
 
 }
 
@@ -1459,79 +1468,17 @@ async function startBroadcast(){
 
     }
 
-let lastTemplateIndex = -1;
+if(
 
-for(const contact of selectedContacts){
+    !buildBroadcastQueue(
 
-    if(templates.length===0){
+        selectedContacts
 
-        alert(
+    )
 
-            "Belum ada template."
+){
 
-        );
-
-        return;
-
-    }
-
-    let templateIndex;
-
-    do{
-
-        templateIndex = Math.floor(
-
-            Math.random() *
-
-            templates.length
-
-        );
-
-    }
-
-    while(
-
-        templates.length > 1 &&
-
-        templateIndex === lastTemplateIndex
-
-    );
-
-    lastTemplateIndex = templateIndex;
-
-    const template =
-
-    templates[templateIndex];
-
-    addQueue({
-
-        campaignId:
-
-        broadcastName.value,
-
-        timelineId:"default",
-
-        templateId:
-
-        template.title,
-
-        message:
-
-        template.message,
-
-        phone:
-
-        contact.phone,
-
-        contactName:
-
-        contact.name,
-
-        schedule:
-
-        sendMode.value
-
-    });
+    return;
 
 }
 
