@@ -79,98 +79,104 @@ export async function sendMessage(
 
 ){
 
-    const startedAt=
+    const startedAt = Date.now();
 
-    Date.now();
+    const url = endpoint();
 
-    const response=
+    const payload = {
 
-    await fetch(
+        token: config.token,
 
-        endpoint(),
+        to: phone,
 
-        {
+        body: message
 
-            method:"POST",
+    };
 
-            headers:{
+    console.log("SEND URL :", url);
 
-                "Content-Type":
+    console.log("SEND DATA :", payload);
 
-                "application/json"
+    try{
 
-            },
+        const response = await fetch(
 
-            body:JSON.stringify({
+            url,
 
-                token:
+            {
 
-                config.token,
+                method:"POST",
 
-                to:phone,
+                headers:{
 
-                body:message
+                    "Content-Type":"application/json"
 
-            })
+                },
 
-        }
+                body:JSON.stringify(payload)
 
-    );
+            }
 
-    const finishedAt=
+        );
 
-    Date.now();
+        const finishedAt = Date.now();
 
-    const data=
+        const data = await response.json();
 
-    await response.json();
+        console.log("ULTRAMSG RESPONSE :", data);
 
-    return{
+        return{
 
-    success:
+            success:response.ok,
 
-    response.ok,
+            status:response.ok
 
-    status:
+                ? "SUCCESS"
 
-    response.ok
+                : "FAILED",
 
-    ?
+            apiDuration:
 
-    "SUCCESS"
+                finishedAt-startedAt,
 
-    :
+            phone,
 
-    "FAILED",
+            response:data,
 
-    apiDuration:
+            error:
 
-    finishedAt-startedAt,
+                data.message ||
 
-    phone:
+                ""
 
-    phone,
+        };
 
-    response:data,
+    }catch(error){
 
-    error:
+        console.error(
 
-    response.ok
+            "FETCH ERROR :",
 
-    ?
+            error
 
-    ""
+        );
 
-    :
+        return{
 
-    (
+            success:false,
 
-        data.message ||
+            status:"FAILED",
 
-        "Unknown Error"
+            apiDuration:0,
 
-    )
+            phone,
 
-};
+            response:null,
+
+            error:error.message
+
+        };
+
+    }
 
 }
