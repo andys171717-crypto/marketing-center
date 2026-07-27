@@ -857,59 +857,61 @@ window.addEventListener(
 
     function(event){
 
-        const state =
-
-        getBroadcastState();
+        const state = getBroadcastState();
 
         renderBroadcastMonitor({
 
             campaign:
-
-            state.campaign ||
-
-            event.detail.campaign,
+                state.campaign || event.detail.campaign,
 
             template:
-
-            state.template ||
-
-            event.detail.template,
-
-            status:
-
-            event.detail.status,
-
-            processed:
-
-            event.detail.processed,
-
-            total:
-
-            event.detail.total,
-
-            contact:
-
-            state.sending
-
-            ?
-
-            `${state.sending.name} (${state.sending.phone})`
-
-            :
-
-            (
-
-                event.detail.contact ||
-
-                event.detail.phone
-
-            ),
+                state.template || event.detail.template,
 
             message:
+                state.message || event.detail.message,
 
-            state.message ||
+            status:
+                event.detail.status,
 
-            event.detail.message
+            processed:
+                event.detail.processed,
+
+            total:
+                event.detail.total,
+
+            contact:
+                state.sending
+                ? `${state.sending.name} (${state.sending.phone})`
+                : (event.detail.contact || event.detail.phone),
+
+            waiting:
+                state.waiting,
+
+            success:
+                state.success.map(
+
+                    item =>
+
+                    `${item.name} (${item.phone})`
+
+                ),
+
+            failed:
+                state.failed.map(
+
+                    item =>
+
+                    item.error
+
+                    ?
+
+                    `${item.name} (${item.phone}) - ${item.error}`
+
+                    :
+
+                    `${item.name} (${item.phone})`
+
+                )
 
         });
 
