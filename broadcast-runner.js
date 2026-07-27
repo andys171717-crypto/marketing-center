@@ -25,6 +25,8 @@ import {
 
     addHistory,
 
+    getBroadcastState,
+
     setBroadcastInfo,
 
     setWaitingContacts,
@@ -384,6 +386,8 @@ removeWaitingContact(
 
 );
 
+const state = getBroadcastState();
+
 window.dispatchEvent(
 
     new CustomEvent(
@@ -408,7 +412,13 @@ window.dispatchEvent(
 
                 processed:runner.processed,
 
-                total:runner.queueLength
+                total:runner.queueLength,
+
+                waiting:state.waiting,
+
+                success:state.success,
+
+                failed:state.failed
 
             }
 
@@ -499,43 +509,47 @@ try{
 
 });
 
-    window.dispatchEvent(
+    const state = getBroadcastState();
 
-        new CustomEvent(
+window.dispatchEvent(
 
-            "broadcast-progress",
+    new CustomEvent(
 
-            {
+        "broadcast-progress",
 
-                detail:{
+        {
 
-                    status:"SUCCESS",
+            detail:{
 
-                    campaign:job.campaignId,
+                status:"SUCCESS",
 
-                    template:job.templateId,
+                campaign:job.campaignId,
 
-                    contact:job.contactName,
+                template:job.templateId,
 
-                    phone:job.phone,
+                contact:job.contactName,
 
-                    message:job.message,
+                phone:job.phone,
 
-                    processed:
+                message:job.message,
 
-                    runner.processed + 1,
+                processed:runner.processed + 1,
 
-                    total:
+                total:runner.queueLength,
 
-                    runner.queueLength
+                waiting:state.waiting,
 
-                }
+                success:state.success,
+
+                failed:state.failed
 
             }
 
-        )
+        }
 
-    );
+    )
+
+);
 
 }else{
 
@@ -565,47 +579,49 @@ try{
 
 });
 
-    window.dispatchEvent(
+    const state = getBroadcastState();
 
-        new CustomEvent(
+window.dispatchEvent(
 
-            "broadcast-progress",
+    new CustomEvent(
 
-            {
+        "broadcast-progress",
 
-                detail:{
+        {
 
-                    status:"FAILED",
+            detail:{
 
-                    campaign:job.campaignId,
+                status:"FAILED",
 
-                    template:job.templateId,
+                campaign:job.campaignId,
 
-                    contact:job.contactName,
+                template:job.templateId,
 
-                    phone:job.phone,
+                contact:job.contactName,
 
-                    message:job.message,
+                phone:job.phone,
 
-                    processed:
+                message:job.message,
 
-                    runner.processed + 1,
+                processed:runner.processed + 1,
 
-                    total:
+                total:runner.queueLength,
 
-                    runner.queueLength,
+                waiting:state.waiting,
 
-                    error:
+                success:state.success,
 
-                    result.error || ""
+                failed:state.failed,
 
-                }
+                error:result.error || ""
 
             }
 
-        )
+        }
 
-    );
+    )
+
+);
 
 }
 
