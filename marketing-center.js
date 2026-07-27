@@ -1260,132 +1260,6 @@ Block : ${preview.block}`
 }
 
 // ==========================
-// HISTORY
-// ==========================
-
-async function startBroadcast(){
-
-    if(!validateBroadcast()){
-        return;
-    }
-
-    if(contacts.length===0){
-
-        alert("Belum ada kontak.");
-
-        return;
-
-    }
-
-let numbers=[];
-
-if(contactGroup.value==="selected"){
-
-    numbers=
-
-    contacts
-
-    .filter(item=>item.selected)
-
-    .map(item=>item.phone);
-
-}
-else{
-
-    numbers=
-
-    contacts
-
-    .map(item=>item.phone);
-
-}
-
-if(numbers.length===0){
-
-    alert(
-
-        "Belum ada kontak yang dipilih."
-
-    );
-
-    return;
-
-}
-
-    try{
-
-        const result =
-        await UltraMsg.sendBulk(
-
-            numbers,
-
-            broadcastMessage.value,
-
-            (progress)=>{
-
-                console.log(
-                    "Progress :",
-                    progress
-                );
-
-            }
-
-        );
-
-        history.unshift({
-
-            name:
-            broadcastName.value || "Broadcast",
-
-            date:
-            new Date().toLocaleString(),
-
-            status:
-            `Berhasil ${result.success}/${result.total}`
-
-        });
-
-        saveHistory();
-
-        renderHistory();
-
-        updateDashboard();
-
-        clearDraft();
-
-        resetForm();
-
-        alert(
-
-            `Broadcast selesai\n\n`+
-
-            `Berhasil : ${result.success}\n`+
-
-            `Gagal : ${result.failed}\n`+
-
-            `Skip : ${result.skipped}`
-
-        );
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        alert(
-
-            "Broadcast gagal.\n\n"+
-
-            error.message
-
-        );
-
-    }
-
-}
-
-// ==========================
 // BUTTON
 // ==========================
 
@@ -1547,9 +1421,7 @@ function validateBroadcast(){
 // START BROADCAST (V1)
 // ==========================================
 
-const oldStartBroadcast = startBroadcast;
-
-startBroadcast = async function(){
+async function startBroadcast(){
 
     if(!validateBroadcast()){
 
@@ -1683,15 +1555,11 @@ Silakan buka Preview terlebih dahulu.`
 
     startRunner(getQueue());
 
-    initSender({
+    initSender(
 
-        apiUrl:ultraApiUrl.value,
+    loadUltraConfig()
 
-        instanceId:ultraInstanceId.value,
-
-        token:ultraToken.value
-
-    });
+);
 
     const result = await processQueue({
 
