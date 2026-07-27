@@ -337,15 +337,40 @@ export async function processNextJob(
 
     setCurrentJob(job);
 
-    const result = await sendMessage(
+    let result;
 
-    job.phone,
+try{
 
-    job.message ??
+    result = await sendMessage(
+        job.phone,
+        job.message ??
+        context.message
+    );
 
-    context.message
+}catch(error){
 
-);
+    console.error(
+        "SEND ERROR",
+        error
+    );
+
+    updateQueueStatus(
+        job.id,
+        "FAILED"
+    );
+
+    addFailed();
+
+    clearCurrentJob();
+
+    return {
+        success:false,
+        status:"FAILED",
+        apiDuration:0,
+        error:error.message
+    };
+
+}
 
     addHistory({
 
