@@ -275,43 +275,50 @@ function calculateAverageDelay(
 
 ){
 
-    if(
-
-        totalContacts <= 0 ||
-
-        targetHours <= 0
-
-    ){
+    if(totalContacts <= 0){
 
         return 30;
 
     }
 
-    const totalSeconds =
+    // Campaign kecil
+    if(totalContacts <= 10){
 
+        return 30;
+
+    }
+
+    // Campaign menengah
+    if(totalContacts <= 100){
+
+        return 60;
+
+    }
+
+    // Campaign besar (contoh 500 kontak ≈ 5 jam)
+
+    const totalSeconds =
     targetHours * 3600;
 
-    const buffer =
-
-    totalSeconds * 0.15;
-
-    const usableSeconds =
-
-    totalSeconds - buffer;
-
-    return Math.max(
-
-        15,
-
-        Math.floor(
-
-            usableSeconds /
-
-            totalContacts
-
-        )
-
+    let average =
+    Math.floor(
+        totalSeconds /
+        totalContacts
     );
+
+    average =
+    Math.max(
+        20,
+        average
+    );
+
+    average =
+    Math.min(
+        120,
+        average
+    );
+
+    return average;
 
 }
 
@@ -462,9 +469,15 @@ calculateAverageDelay(
 
 const variance =
 
-Math.floor(
+Math.max(
 
-    averageDelay * 0.50
+    5,
+
+    Math.floor(
+
+        averageDelay * 0.30
+
+    )
 
 );
 
@@ -482,7 +495,15 @@ Math.floor(
 
 delay = Math.max(
 
-    15,
+    20,
+
+    delay
+
+);
+
+delay = Math.min(
+
+    120,
 
     delay
 
