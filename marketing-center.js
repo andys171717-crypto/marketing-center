@@ -479,6 +479,11 @@ document.getElementById("templateList");
 const historyList =
 document.getElementById("historyList");
 
+const broadcastMonitor =
+document.getElementById(
+    "broadcastMonitor"
+);
+
 const broadcastName =
 document.getElementById("broadcastName");
 
@@ -738,6 +743,62 @@ function renderTemplates(){
 // ==========================
 // RENDER HISTORY
 // ==========================
+
+function renderBroadcastMonitor(data){
+
+    if(!broadcastMonitor){
+
+        return;
+
+    }
+
+    if(!data){
+
+        broadcastMonitor.innerHTML = `
+
+            <p>Belum ada broadcast yang berjalan.</p>
+
+        `;
+
+        return;
+
+    }
+
+    broadcastMonitor.innerHTML = `
+
+        <div class="monitor-card">
+
+            <h3>${data.campaign}</h3>
+
+            <p><b>Template :</b> ${data.template}</p>
+
+            <p><b>Status :</b> ${data.status}</p>
+
+            <p><b>Progress :</b>
+
+            ${data.processed}
+
+            /
+
+            ${data.total}</p>
+
+            <p><b>Kontak :</b>
+
+            ${data.contact}</p>
+
+            <p><b>Pesan :</b></p>
+
+            <div class="monitor-message">
+
+                ${data.message}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
 
 function renderHistory(){
 
@@ -1504,6 +1565,58 @@ document
         :
 
         contacts;
+
+        const activeTemplate =
+
+templates.find(
+    item=>item.active
+);
+
+renderBroadcastMonitor({
+
+    campaign:
+
+    broadcastName.value ||
+
+    "Broadcast",
+
+    template:
+
+    activeTemplate
+
+    ?
+
+    activeTemplate.title
+
+    :
+
+    "-",
+
+    message:
+
+    activeTemplate
+
+    ?
+
+    activeTemplate.message
+
+    :
+
+    broadcastMessage.value,
+
+    status:
+
+    "Menyiapkan Broadcast...",
+
+    processed:0,
+
+    total:
+
+    selectedContacts.length,
+
+    contact:"-"
+
+});
 
     if(selectedContacts.length===0){
 
