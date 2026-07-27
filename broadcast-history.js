@@ -195,3 +195,21 @@ export function addFailedContact(
     broadcastState.failed.push(contact);
 
 }
+
+export function removeWaitingContact(
+
+    phone
+
+){
+
+    broadcastState.waiting =
+
+    broadcastState.waiting.filter(
+
+        item =>
+
+        !item.includes(`(${phone})`)
+
+    );
+
+}
