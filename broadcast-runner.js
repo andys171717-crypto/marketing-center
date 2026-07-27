@@ -23,7 +23,17 @@ from "./ultramsg-sender.js";
 
 import {
 
-    addHistory
+    addHistory,
+
+    setBroadcastInfo,
+
+    setWaitingContacts,
+
+    setSendingContact,
+
+    addSuccessContact,
+
+    addFailedContact
 
 }
 
@@ -344,6 +354,28 @@ export async function processNextJob(
 
     setCurrentJob(job);
 
+    setBroadcastInfo(
+
+    job.campaignId,
+
+    job.templateId,
+
+    job.message
+
+);
+
+setSendingContact({
+
+    name:
+
+    job.contactName,
+
+    phone:
+
+    job.phone
+
+});
+
 window.dispatchEvent(
 
     new CustomEvent(
@@ -447,6 +479,18 @@ try{
 
     );
 
+    addSuccessContact({
+
+    name:
+
+    job.contactName,
+
+    phone:
+
+    job.phone
+
+});
+
     window.dispatchEvent(
 
         new CustomEvent(
@@ -496,6 +540,22 @@ try{
         "FAILED"
 
     );
+
+    addFailedContact({
+
+    name:
+
+    job.contactName,
+
+    phone:
+
+    job.phone,
+
+    error:
+
+    result.error || ""
+
+});
 
     window.dispatchEvent(
 
