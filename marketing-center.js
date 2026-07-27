@@ -443,6 +443,8 @@ let history = [];
 
 let draft = null;
 
+let broadcastRunning = false;
+
 // ==========================
 // ELEMENT
 // ==========================
@@ -1438,6 +1440,28 @@ async function startBroadcast(){
 
     }
 
+    if(broadcastRunning){
+
+    alert(
+
+        "Broadcast sedang berjalan."
+
+    );
+
+    return;
+
+}
+
+broadcastRunning = true;
+
+document
+
+.getElementById(
+
+    "startBroadcastBtn"
+
+).disabled = true;
+
     clearQueue();
 
     const selectedContacts =
@@ -1543,6 +1567,16 @@ ${getQueue().length}
 Runner berhasil menyelesaikan seluruh Queue.`
 
 );
+
+broadcastRunning = false;
+
+document
+
+.getElementById(
+
+    "startBroadcastBtn"
+
+).disabled = false;
 
 };
 
