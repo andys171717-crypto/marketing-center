@@ -168,7 +168,9 @@ import {
 
     addHistory,
 
-    getBroadcastState
+    getBroadcastState,
+
+    setWaitingContacts
 
 }
 
@@ -1385,6 +1387,18 @@ function buildBroadcastQueue(selectedContacts){
         });
 
     }
+
+    setWaitingContacts(
+
+    selectedContacts.map(
+
+        item =>
+
+        `${item.name} (${item.phone})`
+
+    )
+
+);
 
     return true;
 
