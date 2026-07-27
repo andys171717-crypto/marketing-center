@@ -344,14 +344,52 @@ export async function processNextJob(
 
     setCurrentJob(job);
 
-    let result;
+window.dispatchEvent(
+
+    new CustomEvent(
+
+        "broadcast-progress",
+
+        {
+
+            detail:{
+
+                status:"SENDING",
+
+                campaign:job.campaignId,
+
+                template:job.templateId,
+
+                contact:job.contactName,
+
+                phone:job.phone,
+
+                message:job.message,
+
+                processed:runner.processed,
+
+                total:runner.queueLength
+
+            }
+
+        }
+
+    )
+
+);
+
+let result;
 
 try{
 
     result = await sendMessage(
+
         job.phone,
+
         job.message ??
+
         context.message
+
     );
 
 }catch(error){
@@ -399,29 +437,109 @@ try{
 
     if(result.success){
 
-        addSuccess();
+    addSuccess();
 
-        updateQueueStatus(
+    updateQueueStatus(
 
-            job.id,
+        job.id,
 
-            "SUCCESS"
+        "SUCCESS"
 
-        );
+    );
 
-    }else{
+    window.dispatchEvent(
 
-        addFailed();
+        new CustomEvent(
 
-        updateQueueStatus(
+            "broadcast-progress",
 
-            job.id,
+            {
 
-            "FAILED"
+                detail:{
 
-        );
+                    status:"SUCCESS",
 
-    }
+                    campaign:job.campaignId,
+
+                    template:job.templateId,
+
+                    contact:job.contactName,
+
+                    phone:job.phone,
+
+                    message:job.message,
+
+                    processed:
+
+                    runner.processed + 1,
+
+                    total:
+
+                    runner.queueLength
+
+                }
+
+            }
+
+        )
+
+    );
+
+}else{
+
+    addFailed();
+
+    updateQueueStatus(
+
+        job.id,
+
+        "FAILED"
+
+    );
+
+    window.dispatchEvent(
+
+        new CustomEvent(
+
+            "broadcast-progress",
+
+            {
+
+                detail:{
+
+                    status:"FAILED",
+
+                    campaign:job.campaignId,
+
+                    template:job.templateId,
+
+                    contact:job.contactName,
+
+                    phone:job.phone,
+
+                    message:job.message,
+
+                    processed:
+
+                    runner.processed + 1,
+
+                    total:
+
+                    runner.queueLength,
+
+                    error:
+
+                    result.error || ""
+
+                }
+
+            }
+
+        )
+
+    );
+
+}
 
     nextRunnerJob();
 
